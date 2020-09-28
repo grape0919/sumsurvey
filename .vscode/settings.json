@@ -1,0 +1,11 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "sumsurvey",
+            "database": "${workspaceFolder:sumsurvey}/rdbms/sumsurvey.db"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
+}
