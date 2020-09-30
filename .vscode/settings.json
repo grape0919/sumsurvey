@@ -3,8 +3,8 @@
         {
             "previewLimit": 50,
             "driver": "SQLite",
-            "name": "sumsurvey",
-            "database": "${workspaceFolder:sumsurvey}/rdbms/sumsurvey.db"
+            "database": "${workspaceFolder:sumsurvey}/rdbms/sumsurvey.db",
+            "name": "sumsurvey"
         }
     ],
     "sqltools.useNodeRuntime": true
