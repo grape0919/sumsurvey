@@ -1,11 +1,42 @@
 <!doctype html>
-<html>
-  <head>
-  </head>
-  <body>
-    {% if True %}
-    <img src="{{ url_for('resources', filename='img/시작.jpg') }}">
-    {% endif %}
-  </div>
-  </body>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+	
+	$("#staticSB").change(function() {
+	      alert(" 정적 변경 감지");
+	   })
+       
+})
+
+function appendTest(){
+	var reader = new FileReader();
+	var html = '<div class=flex-container>'
+  +'   <div class=entries>'
+  +'    <img class=fit-picture src="{{ url_for('static', filename=imagefile) }}">'
+  +'    <h2>{{ entry.id }}. {{ entry.title }}</h2>'
+  +'    {{ entry.question|safe }}'
+  +'  </div>'
+  +'  <div class=entries>'
+  +'    {% for ch in choices %}'
+  +'      <li>{{ch.number}}. {{ch.text}}</li>'
+  +'    {% endfor %}'
+  +'  </div>'
+  +'</div>';
+	
+	$("#parent").empty();
+	$("#parent").append(html);
+}
+
+
+</script>
+
+</head>
+<body>
+<button type="button" onclick="appendTest()">append?</button>
+<div id="parent">
+
+</div>
+</body>
 </html>

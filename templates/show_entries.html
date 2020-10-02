@@ -1,9 +1,17 @@
+<head>
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+</head>
 {% block body %}
-  <ul class=entries>
-  {% for entry in entries %}
-    <li><h2>{{ entry.title }}</h2>{{ entry.question|safe }}
-  {% else %}
-    <li><em>Unbelievable.  No entries here so far</em>
-  {% endfor %}
-  </ul>
+  <div class=flex-container>
+    <div class=entries>
+      <img class=fit-picture src="{{ url_for('static', filename=imagefile) }}">
+      <h2>{{ entry.id }}. {{ entry.title }}</h2>
+      {{ entry.question|safe }}
+    </div>
+    <div class=entries>
+      {% for ch in choices %}
+        <li>{{ch.number}}. {{ch.text}}</li>
+      {% endfor %}
+    </div>
+  </div>
 {% endblock %}

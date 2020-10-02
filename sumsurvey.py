@@ -30,6 +30,7 @@ def init_db():
             db.cursor().executescript(f.read().decode('utf-8'))
         db.commit()
 
+
 @app.before_request
 def before_request():
     g.db = connect_db()
@@ -40,15 +41,22 @@ def teardown_request(exception):
 
 @app.route('/survey/<id>')
 def show_entries(id=None):
-    cur = g.db.cursor().execute('SELECT TITLE, QUESTION FROM QUESTION')
+    #질문
+    cur = g.db.cursor().execute('SELECT Q_ID, TITLE, QUESTION FROM QUESTION WHERE Q_ID = {ID}'.format(ID=id))
     g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
-    entries = [dict(title=row[0], question=row[1]) for row in cur.fetchall()]
-    print("!@#!@# entries : ", entries)
-    return render_template('show_entries.html', entries=entries)
+    row = cur.fetchall()[0]
+    entry = dict(id=row[0], title=row[1], question=row[2])
+    imgid = row[0]
+    #답변
+    cur = g.db.cursor().execute('SELECT C_NUMBER, TEXT, POINT FROM CHOICES WHERE Q_ID = {ID}'.format(ID=imgid))
+    g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
+    choices = [dict(number=row[0], text=row[1], point=row[2]) for row in cur.fetchall()]
+    print("!@#!@# choices : ", choices)
+    return render_template('show_entries.html', entry=entry, choices=choices, imagefile="resources/img/질문"+str(imgid)+".jpg")
 
 @app.route('/')
 def start():
-    return render_template('start_surv.html', image_file="resources/img/start.jpg")
+    return render_template('start_surv.html')
 
 @app.route('/analz')
 def analz():
