@@ -10,19 +10,15 @@ $(document).ready(function(){
        
 })
 
-function appendTest(){
+function appendTest(entry, text, choices){
 	var reader = new FileReader();
 	var html = '<div class=flex-container>'
   +'   <div class=entries>'
-  +'    <img class=fit-picture src="{{ url_for('static', filename=imagefile) }}">'
+  +'    <img class=fit-picture src="/static/resources/질문1.jpg">'
   +'    <h2>{{ entry.id }}. {{ entry.title }}</h2>'
   +'    {{ entry.question|safe }}'
   +'  </div>'
-  +'  <div class=entries>'
-  +'    {% for ch in choices %}'
-  +'      <li>{{ch.number}}. {{ch.text}}</li>'
-  +'    {% endfor %}'
-  +'  </div>'
+
   +'</div>';
 	
 	$("#parent").empty();
@@ -33,10 +29,18 @@ function appendTest(){
 </script>
 
 </head>
-<body>
-<button type="button" onclick="appendTest()">append?</button>
-<div id="parent">
-
-</div>
-</body>
+  <body>
+    <div class=flex-container>
+      <div class=entries>
+        <img class=fit-picture src="{{ url_for('static', filename=imagefile) }}">
+        <h2>{{ entry.id }}. {{ entry.title }}</h2>
+        {{ entry.question|safe }}
+      </div>
+      <div class=entries>
+        {% for ch in choices %}
+          <li>{{ch.number}}. {{ch.text}}</li>
+        {% endfor %}
+      </div>
+    </div>
+  </body>
 </html>

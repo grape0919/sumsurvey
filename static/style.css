@@ -1,16 +1,18 @@
 body            { font-family: sans-serif; background: #ffffff; }
 a, h1, h2       { color: #377BA8; }
-h1, h2          { font-family: 'Georgia', serif; margin: 0; }
+h1, h2          { font-family: 'Georgia', serif; margin: 20; }
 h1              { border-bottom: 2px solid #eee; }
 h2              { font-size: 1.2em; }
 
 .flex-container{ width: 100%; height: 100vh; display: flex; flex-direction: column; -webkit-box-align: center; align-items: center; -webkit-box-pack: center; justify-content: center; }
 
 .page           { margin: 2em auto; width: 35em; border: 5px solid #ccc;
-                  padding: 0.8em; background: white; }
-.entries        { list-style: none; margin: 0; padding: 0; }
-.entries li     { margin: 0.8em 1.2em; }
-.entries li h2  { margin-left: -1em; }
+                  padding: 0.8em; background: white; top:50%; left:50%;}
+.entries        { list-style: none; margin-top: 20px; padding: 0; }
+.entries h2     { margin-left: -1em; }
+.entries form   { width: 50%; }
+.question       { margin: 0.8em 1.2em; background-color: #377BA8;  }
+.choice         { margin-top: 10px; background-color: #ccc; margin-left: 10px; padding-top: 5px; padding-bottom: 5px;}
 .add-entry      { font-size: 0.9em; border-bottom: 1px solid #ccc; }
 .add-entry dl   { font-weight: bold; }
 .metanav        { text-align: right; font-size: 0.8em; padding: 0.3em;
@@ -18,10 +20,13 @@ h2              { font-size: 1.2em; }
 .flash          { background: #CEE5F5; padding: 0.5em;
                   border: 1px solid #AACBE2; }
 .error          { background: #F0D6D6; padding: 0.5em; }
-.fit-picture    { width: 250px;}
+.fit-picture    { width: 250px; align-content: center;}
 
 .centerWindow   { position:absolute; top:50%; left:50%; margin-top:-50px; margin-left:-50px; }
 
-.button         { background: rgb(65, 147, 255); color: white; width: 180px; height: 30px; margin-top: 10px;}
+.button         { border-radius: 5px; background: rgb(65, 147, 255); color: white; width: 200px; height: 40px; margin-top: 10px;}
+.gonextbutton       { border-radius: 5px; background: rgb(65, 147, 255); color: white; width: 100px; height: 25px; margin-top: 10px;}
+.gopreviousbutton       { border-radius: 5px; background: #ccc; color: white; width: 100px; height: 25px; margin-top: 10px; margin-right: 70px;}
 
-.ad             { width: 200px; height: 50px; margin-top: 20px;}
+.ad             { width: 300px; height: 50px; margin-top: 30px;}
+

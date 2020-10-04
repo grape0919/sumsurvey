@@ -51,12 +51,21 @@ def show_entries(id=None):
     cur = g.db.cursor().execute('SELECT C_NUMBER, TEXT, POINT FROM CHOICES WHERE Q_ID = {ID}'.format(ID=imgid))
     g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
     choices = [dict(number=row[0], text=row[1], point=row[2]) for row in cur.fetchall()]
-    print("!@#!@# choices : ", choices)
-    return render_template('show_entries.html', entry=entry, choices=choices, imagefile="resources/img/질문"+str(imgid)+".jpg")
+    
+    cur = g.db.cursor().execute('SELECT MAX(Q_ID) FROM QUESTION')
+    g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
+    row = cur.fetchall()[0]
+    maxid = row[0]
+
+    return render_template('show_entries.html', entry=entry, choices=choices, maxid=maxid, imagefile="resources/img/질문"+str(imgid)+".jpg")
 
 @app.route('/')
 def start():
     return render_template('start_surv.html')
+
+@app.route('/end')
+def end():
+    return render_template('splash_surv.html')
 
 @app.route('/analz')
 def analz():
