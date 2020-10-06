@@ -10,7 +10,7 @@ from flask import Flask, request, session, g, redirect, url_for, \
 # configuration
 DATABASE = 'rdbms/sumsurvey.db'
 DEBUG = True
-SECRET_KEY = 'development key'
+SECRET_KEY = b'aGtkZXZzdHVkaW9TdW1zdXJ2ZXk='
 USERNAME = 'admin'
 PASSWORD = 'default'
 
@@ -59,6 +59,18 @@ def show_entries(id=None):
 
     return render_template('show_entries.html', entry=entry, choices=choices, maxid=maxid, imagefile="resources/img/질문"+str(imgid)+".jpg")
 
+@app.route('/survey/analz')
+def analz():
+     #질문들
+    cur = g.db.cursor().execute('SELECT Q_ID, TITLE, QUESTION FROM QUESTION')
+    g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
+    entries = [dict(id=row[0], title=row[1], question=row[2]) for row in cur.fetchall()]
+    #답변들
+    # cur = g.db.cursor().execute('SELECT C_NUMBER, TEXT, POINT FROM CHOICES WHERE Q_ID = {ID}'.format(ID=imgid))
+    # g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
+    # choices = [dict(number=row[0], text=row[1], point=row[2]) for row in cur.fetchall()]
+    return render_template('analz_surv.html', entries=entries, id=1)
+
 @app.route('/')
 def start():
     return render_template('start_surv.html')
@@ -67,9 +79,6 @@ def start():
 def end():
     return render_template('splash_surv.html')
 
-@app.route('/analz')
-def analz():
-    return render_template('start_surv.html')
 
 if __name__ == '__main__':
     app.run()

@@ -1,46 +1,52 @@
 <!doctype html>
 
+<script type="text/JavaScript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
+
 <script type="text/javascript">
 
 $(document).ready(function(){
-	
 	$("#staticSB").change(function() {
 	      alert(" 정적 변경 감지");
 	   })
-       
 })
 
-function appendTest(entry, text, choices){
+function appendTest(){
+  {% set a = id+1 %}
 	var reader = new FileReader();
-	var html = '<div class=flex-container>'
-  +'   <div class=entries>'
-  +'    <img class=fit-picture src="/static/resources/질문1.jpg">'
-  +'    <h2>{{ entry.id }}. {{ entry.title }}</h2>'
-  +'    {{ entry.question|safe }}'
-  +'  </div>'
-
-  +'</div>';
+	var html = '   <div class=entries>'
+  +'    <img class=fit-picture src="/static/resources/img/질문{{id}}.jpg">'
+  +'    <h2>Q. {{ entries[id-1].question|safe }}</h2>'
+  +'    {{ id }}'
+  +'  </div>';
 	
-	$("#parent").empty();
-	$("#parent").append(html);
+	$("#surv").empty();
+	$("#surv").append(html);
 }
 
 
 </script>
 
+<head>
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
 </head>
-  <body>
-    <div class=flex-container>
-      <div class=entries>
-        <img class=fit-picture src="{{ url_for('static', filename=imagefile) }}">
-        <h2>{{ entry.id }}. {{ entry.title }}</h2>
-        {{ entry.question|safe }}
-      </div>
-      <div class=entries>
-        {% for ch in choices %}
-          <li>{{ch.number}}. {{ch.text}}</li>
-        {% endfor %}
-      </div>
+<body>
+  <div class=flex-container id='surv'>
+    <div class=entries>
+      <img class=fit-picture src="{{ url_for('static', filename="resources/img/질문1.jpg") }}">
+      <h2>Q. {{ entries[0].question|safe }}</h2>
+     
     </div>
-  </body>
+    <!--<div class=entries>
+      {% for ch in choices %}
+        <li>{{ch.number}}. {{ch.text}}</li>
+      {% endfor %}
+    </div>-->
+    <div>
+        <button class=gopreviousbutton type="submit" onclick="goPrevious();" >이전</button>
+        <button class=gonextbutton type="submit" onclick="appendTest();" >다음</button>
+    </div>
+    
+    <button class=ad type="button" > 광고 모집 중.. </button>
+  </div>
+</body>
 </html>

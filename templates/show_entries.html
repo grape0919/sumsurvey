@@ -33,7 +33,7 @@
   <div class=flex-container>
     <img class=fit-picture src="{{ url_for('static', filename=imagefile) }}">
     <h2>Q. {{ entry.question|safe }}</h2>
-    <form>
+    <form value={{ entry.id }}>
       {% for ch in choices %}
         
         <label ><div><input type="radio" name="choice" value={{ch.point}}><p class=choice>  {{ch.text}}</p></div></label>
