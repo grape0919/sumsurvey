@@ -4,6 +4,8 @@
 
 <script type="text/javascript">
 
+var chooseList = []
+
 $(document).ready(function(){
 	$("#staticSB").change(function() {
 	      alert(" 정적 변경 감지");
@@ -11,13 +13,18 @@ $(document).ready(function(){
 })
 
 function appendTest(){
-  {% set a = id+1 %}
+  {% set id = id+1 %}
 	var reader = new FileReader();
 	var html = '   <div class=entries>'
   +'    <img class=fit-picture src="/static/resources/img/질문{{id}}.jpg">'
   +'    <h2>Q. {{ entries[id-1].question|safe }}</h2>'
   +'    {{ id }}'
-  +'  </div>';
+  +'  </div>'
+  +'<div>'
+  +'<button class=gopreviousbutton type="submit" onclick="goPrevious();" >이전</button>'
+  +'<button class=gonextbutton type="submit" onclick="appendTest();" >다음</button>'
+  +'</div>'
+  +'<button class=ad type="button" > 광고 모집 중.. </button>';
 	
 	$("#surv").empty();
 	$("#surv").append(html);
