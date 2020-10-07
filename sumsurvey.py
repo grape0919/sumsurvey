@@ -47,6 +47,7 @@ def show_entries(id=None):
     row = cur.fetchall()[0]
     entry = dict(id=row[0], title=row[1], question=row[2])
     imgid = row[0]
+    
     #답변
     cur = g.db.cursor().execute('SELECT C_NUMBER, TEXT, POINT FROM CHOICES WHERE Q_ID = {ID}'.format(ID=imgid))
     g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
@@ -65,11 +66,22 @@ def analz():
     cur = g.db.cursor().execute('SELECT Q_ID, TITLE, QUESTION FROM QUESTION')
     g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
     entries = [dict(id=row[0], title=row[1], question=row[2]) for row in cur.fetchall()]
+
+    cur = g.db.cursor().execute('SELECT MAX(Q_ID) FROM QUESTION')
+    g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
+    row = cur.fetchall()[0]
+    maxid = row[0]
+
     #답변들
-    # cur = g.db.cursor().execute('SELECT C_NUMBER, TEXT, POINT FROM CHOICES WHERE Q_ID = {ID}'.format(ID=imgid))
-    # g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
-    # choices = [dict(number=row[0], text=row[1], point=row[2]) for row in cur.fetchall()]
-    return render_template('analz_surv.html', entries=entries, id=1)
+    choices = []
+    for i in range(maxid):
+        cur = g.db.cursor().execute('SELECT C_NUMBER, TEXT, POINT FROM CHOICES WHERE Q_ID = {ID}'.format(ID=i+1))
+        g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
+        choices.append([dict(number=row[0], text=row[1], point=row[2]) for row in cur.fetchall()])
+    
+    print("!@#!@# choices : ", choices)
+
+    return render_template('analz_surv.html', entries=entries, id=1, choices=choices, maxid=maxid)
 
 @app.route('/')
 def start():

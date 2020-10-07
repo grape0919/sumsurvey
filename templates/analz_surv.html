@@ -1,9 +1,10 @@
 <!doctype html>
-
+{% set qid = id %}
 <script type="text/JavaScript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
 
 <script type="text/javascript">
 
+var id = {{id}}
 var chooseList = []
 
 $(document).ready(function(){
@@ -13,16 +14,19 @@ $(document).ready(function(){
 })
 
 function appendTest(){
-  {% set id = id+1 %}
+  {% set qid = qid + 1%}
 	var reader = new FileReader();
-	var html = '   <div class=entries>'
-  +'    <img class=fit-picture src="/static/resources/img/질문{{id}}.jpg">'
-  +'    <h2>Q. {{ entries[id-1].question|safe }}</h2>'
-  +'    {{ id }}'
-  +'  </div>'
+	var html = ''
+  +'<img class=fit-picture src="/static/resources/img/질문{{qid}}.jpg">'
+  +'<h2>Q. {{ entries[id-1].question|safe }}</h2>'
+  +'<form value={{id-1}}>'
+  +'  {% for ch in choices[id-1] %}'
+  +'  <div class=entries><label ><input type="radio" name="choice" value={{ch.point}}><span class=choice>  {{ch.text}}</span  ></label></div>'  +'    {% endfor %}'
+  +'</form>'
+  +''
   +'<div>'
-  +'<button class=gopreviousbutton type="submit" onclick="goPrevious();" >이전</button>'
-  +'<button class=gonextbutton type="submit" onclick="appendTest();" >다음</button>'
+  +'  <button class=gopreviousbutton type="submit" onclick="goPrevious();" >이전</button>'
+  +'  <button class=gonextbutton type="submit" onclick="appendTest();" >다음</button>'
   +'</div>'
   +'<button class=ad type="button" > 광고 모집 중.. </button>';
 	
@@ -38,16 +42,13 @@ function appendTest(){
 </head>
 <body>
   <div class=flex-container id='surv'>
-    <div class=entries>
-      <img class=fit-picture src="{{ url_for('static', filename="resources/img/질문1.jpg") }}">
-      <h2>Q. {{ entries[0].question|safe }}</h2>
-     
-    </div>
-    <!--<div class=entries>
-      {% for ch in choices %}
-        <li>{{ch.number}}. {{ch.text}}</li>
+    <img class=fit-picture src="{{ url_for('static', filename="resources/img/질문1.jpg") }}">
+    <h2>Q. {{ entries[0].question|safe }}</h2>
+    <form value={{ id }}>
+      {% for ch in choices[0] %}  
+        <div class=entries><label ><input type="radio" name="choice" value={{ch.point}}><span class=choice>  {{ch.text}}</span  ></label></div>
       {% endfor %}
-    </div>-->
+    </form>
     <div>
         <button class=gopreviousbutton type="submit" onclick="goPrevious();" >이전</button>
         <button class=gonextbutton type="submit" onclick="appendTest();" >다음</button>
