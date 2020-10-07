@@ -77,9 +77,9 @@ def analz():
     for i in range(maxid):
         cur = g.db.cursor().execute('SELECT C_NUMBER, TEXT, POINT FROM CHOICES WHERE Q_ID = {ID}'.format(ID=i+1))
         g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
-        choices.append([dict(number=row[0], text=row[1], point=row[2]) for row in cur.fetchall()])
+        choices.append([dict(qid=i+1, number=row[0], text=row[1], point=row[2]) for row in cur.fetchall()])
     
-    print("!@#!@# choices : ", choices)
+    #dprint("!@#!@# choices : ", choices)
 
     return render_template('analz_surv.html', entries=entries, id=1, choices=choices, maxid=maxid)
 

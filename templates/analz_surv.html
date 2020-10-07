@@ -1,38 +1,48 @@
 <!doctype html>
-{% set qid = id %}
 <script type="text/JavaScript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
 
 <script type="text/javascript">
+  
+  var id = {{id}};
+  var qList = [];
+  var chooseList = [];
 
-var id = {{id}}
-var chooseList = []
+  {% for e in entries %}
+    qList[{{e.id}}] = "<h2>Q. {{ e.question }} </h2>"
+  {% endfor %}
 
-$(document).ready(function(){
-	$("#staticSB").change(function() {
-	      alert(" 정적 변경 감지");
-	   })
-})
+  {% for choice in choices %}
+    var temp = '';
+    {% for ch in choice %}
+      temp += '<div class=entries><label ><input type="radio" name="choice" value={{ch.point}}><span class=choice>  {{ch.text}}</span  ></label></div>'
+    {% endfor %}
+    chooseList[ {{ choice[0].qid }} ] += temp;
+  {% endfor %}
 
-function appendTest(){
-  {% set qid = qid + 1%}
-	var reader = new FileReader();
-	var html = ''
-  +'<img class=fit-picture src="/static/resources/img/질문{{qid}}.jpg">'
-  +'<h2>Q. {{ entries[id-1].question|safe }}</h2>'
-  +'<form value={{id-1}}>'
-  +'  {% for ch in choices[id-1] %}'
-  +'  <div class=entries><label ><input type="radio" name="choice" value={{ch.point}}><span class=choice>  {{ch.text}}</span  ></label></div>'  +'    {% endfor %}'
-  +'</form>'
-  +''
-  +'<div>'
-  +'  <button class=gopreviousbutton type="submit" onclick="goPrevious();" >이전</button>'
-  +'  <button class=gonextbutton type="submit" onclick="appendTest();" >다음</button>'
-  +'</div>'
-  +'<button class=ad type="button" > 광고 모집 중.. </button>';
-	
-	$("#surv").empty();
-	$("#surv").append(html);
-}
+  $(document).ready(function(){
+    $("#staticSB").change(function() {
+          alert(" 정적 변경 감지");
+      })
+  })
+
+  function appendTest(){
+    ++id;
+    var reader = new FileReader();
+    var html = ''
+    +'<img class=fit-picture src="/static/resources/img/질문'+id+'.jpg">'
+    + qList[id]
+    +'<form value='+id+'>'
+    + chooseList[id]
+    +'</form>'
+    +'<div>'
+    +'  <button class=gopreviousbutton type="submit" onclick="goPrevious();" >이전</button>'
+    +'  <button class=gonextbutton type="submit" onclick="appendTest();" >다음</button>'
+    +'</div>'
+    +'<button class=ad type="button" > 광고 모집 중.. </button>';
+    
+    $("#surv").empty();
+    $("#surv").append(html);
+  }
 
 
 </script>
@@ -40,21 +50,21 @@ function appendTest(){
 <head>
   <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
-  <div class=flex-container id='surv'>
-    <img class=fit-picture src="{{ url_for('static', filename="resources/img/질문1.jpg") }}">
-    <h2>Q. {{ entries[0].question|safe }}</h2>
-    <form value={{ id }}>
-      {% for ch in choices[0] %}  
-        <div class=entries><label ><input type="radio" name="choice" value={{ch.point}}><span class=choice>  {{ch.text}}</span  ></label></div>
-      {% endfor %}
-    </form>
-    <div>
-        <button class=gopreviousbutton type="submit" onclick="goPrevious();" >이전</button>
-        <button class=gonextbutton type="submit" onclick="appendTest();" >다음</button>
+  <body>
+    <div class=flex-container id='surv'>
+      <img class=fit-picture src="{{ url_for('static', filename="resources/img/질문1.jpg") }}">
+      <h2>Q. {{ entries[0].question|safe }}</h2>
+      <form value={{ id }}>
+        {% for ch in choices[0] %}  
+          <div class=entries><label ><input type="radio" name="choice" value={{ch.point}}><span class=choice>  {{ch.text}}</span  ></label></div>
+        {% endfor %}
+      </form>
+      <div>
+          <button class=gopreviousbutton type="submit" onclick="goPrevious();" >이전</button>
+          <button class=gonextbutton type="submit" onclick="appendTest();" >다음</button>
+      </div>
+      
+      <button class=ad type="button" > 광고 모집 중.. </button>
     </div>
-    
-    <button class=ad type="button" > 광고 모집 중.. </button>
-  </div>
-</body>
+  </body>
 </html>

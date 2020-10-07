@@ -36,9 +36,8 @@
     <form value={{ entry.id }}>
       {% for ch in choices %}
         
-        <label ><div><input type="radio" name="choice" value={{ch.point}}><p class=choice>  {{ch.text}}</p></div></label>
+      <div class=entries><label ><input type="radio" name="choice" value={{ch.point}}><span class=choice>  {{ch.text}}</span  ></label></div>
         
-        <!--<input type="checkBox" value={{ch.point}}>{{ch.number}}. {{ch.text}}</option>-->
       {% endfor %}
     </form>
     <div  >
