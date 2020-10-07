@@ -87,10 +87,18 @@ def analz():
 def start():
     return render_template('start_surv.html')
 
-@app.route('/end')
-def end():
-    return render_template('splash_surv.html')
+@app.route('/survey/splash/<result>')
+def splash(result = None):
+    return render_template('splash_surv.html', result=result)
 
+@app.route('/survey/result/<result>')
+def result(result = None):
+    cur = g.db.cursor().execute('SELECT NAME FROM RESULT WHERE {ID}'.format(ID=result))
+    g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
+    row = cur.fetchall()[0]
+    name = row[0]
+    print("!@#!@# name : " + name)
+    return render_template('result_surv.html', name=name)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='127.0.0.1', port='80')

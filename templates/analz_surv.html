@@ -2,10 +2,14 @@
 <script type="text/JavaScript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
 
 <script type="text/javascript">
-
+  var maxid = {{maxid}};
   var id = {{id}};
   var qList = [];
   var chooseList = [];
+
+  var checkedList = [];
+
+  var checkedValue = [];
 
   {% for e in entries %}
     qList[{{e.id}}] = "<h2>Q. {{ e.question }} </h2>"
@@ -16,7 +20,7 @@
     {% for ch in choice %}
       temp += '<div class=entries><label ><input type="radio" name="choice" value={{ch.point}}><span class=choice>  {{ch.text}}</span></label></div>'
     {% endfor %}
-    chooseList[ {{ choice[0].qid }} ] = temp;
+    chooseList[ '{{ choice[0].qid }}' ] = temp;
   {% endfor %}
 
   $(document).ready(function(){
@@ -25,10 +29,43 @@
       })
   })
 
-  function appendTest(){
-    ++id;
+  function goNext(){
     
-    this.console.log(chooseList[id]);
+    if(!value_check()){
+      return;
+    }
+    
+    if(id == maxid){
+      var temp = [];
+      
+      for(var j = 0; j < checkedValue.length; j++){
+        
+        if(checkedValue[j] >= 0){
+          var v = checkedValue[j];
+          for(var i = 0;i < 4; i++){
+            if (!(temp[i] >= 0)){
+              temp[i] = 0;
+            }
+            
+            temp[i] += v & 1;
+            
+            v = v >> 1;
+          }
+        }
+      }
+      var max = 0;
+      var result = -1;
+      for(var i = 0; i < temp.length; i++){
+        if(temp[i] > max){
+          max = temp[i];
+          result = i+1;
+        }
+      }
+      location.href = "/survey/splash/"+result;
+      return;
+    }else{
+      ++id;
+    }
     var reader = new FileReader();
     var html = ''
     +'<img class=fit-picture src="/static/resources/img/질문'+id+'.jpg">'
@@ -38,18 +75,21 @@
     +'</form>'
     +'<div>'
     +'  <button class=gopreviousbutton type="submit" onclick="goPrevious();" >이전</button>'
-    +'  <button class=gonextbutton type="submit" onclick="appendTest();" >다음</button>'
+    +'  <button class=gonextbutton type="submit" onclick="goNext();" >다음</button>'
     +'</div>'
     +'<button class=ad type="button" > 광고 모집 중.. </button>';
     
     $("#surv").empty();
     $("#surv").append(html);
+    radio_check();
   }
 
   function goPrevious(){
-    --id;
-    
-    this.console.log(chooseList[id]);
+    if(id == 1){
+      return;
+    }else{
+      --id;
+    }
     var reader = new FileReader();
     var html = ''
     +'<img class=fit-picture src="/static/resources/img/질문'+id+'.jpg">'
@@ -59,12 +99,38 @@
     +'</form>'
     +'<div>'
     +'  <button class=gopreviousbutton type="submit" onclick="goPrevious();" >이전</button>'
-    +'  <button class=gonextbutton type="submit" onclick="appendTest();" >다음</button>'
+    +'  <button class=gonextbutton type="submit" onclick="goNext();" >다음</button>'
     +'</div>'
     +'<button class=ad type="button" > 광고 모집 중.. </button>';
     
     $("#surv").empty();
     $("#surv").append(html);
+    radio_check();
+  }
+
+  function value_check() {
+    var check_count = document.getElementsByName("choice").length;
+    var isChecked = false;
+    for (var i=0; i<check_count; i++) {
+      if (document.getElementsByName("choice")[i].checked == true) {
+        checkedList[id] = i;
+        checkedValue[id] = document.getElementsByName("choice")[i].value;
+        isChecked = true;
+      }
+    }
+
+    if(!isChecked){
+      alert("질문에 응답하지 않으셨습니다.");
+      return false;
+    }else{
+      return true;
+    }
+  }
+
+  function radio_check(){
+    if( checkedList[id] >= 0){
+      document.getElementsByName("choice")[checkedList[id]].checked = true;
+    }
   }
 
 </script>
@@ -76,14 +142,14 @@
     <div class=flex-container id='surv'>
       <img class=fit-picture src="{{ url_for('static', filename="resources/img/질문1.jpg") }}">
       <h2>Q. {{ entries[0].question|safe }}</h2>
-      <form value={{ id }}>
+      <form value={{ id }} name=choicesform>
         {% for ch in choices[0] %}  
           <div class=entries><label ><input type="radio" name="choice" value={{ch.point}}><span class=choice>  {{ch.text}}</span  ></label></div>
         {% endfor %}
       </form>
       <div>
           <button class=gopreviousbutton type="submit" onclick="goPrevious();" >이전</button>
-          <button class=gonextbutton type="submit" onclick="appendTest();" >다음</button>
+          <button class=gonextbutton type="submit" onclick="goNext();" >다음</button>
       </div>
       
       <button class=ad type="button" > 광고 모집 중.. </button>

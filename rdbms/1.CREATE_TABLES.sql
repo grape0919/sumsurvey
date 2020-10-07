@@ -124,5 +124,5 @@ insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (15,4,'자연속 아늑함'
 -- 결과
 insert into RESULT(R_ID, NAME) values(1, '캠핑');
 insert into RESULT(R_ID, NAME) values(2, '글램핑');
-insert into RESULT(R_ID, NAME) values(3, '차박/알빙');
+insert into RESULT(R_ID, NAME) values(3, '오토캠핑');
 insert into RESULT(R_ID, NAME) values(4, '비박');
