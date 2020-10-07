@@ -2,7 +2,7 @@
 <script type="text/JavaScript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
 
 <script type="text/javascript">
-  
+
   var id = {{id}};
   var qList = [];
   var chooseList = [];
@@ -14,9 +14,9 @@
   {% for choice in choices %}
     var temp = '';
     {% for ch in choice %}
-      temp += '<div class=entries><label ><input type="radio" name="choice" value={{ch.point}}><span class=choice>  {{ch.text}}</span  ></label></div>'
+      temp += '<div class=entries><label ><input type="radio" name="choice" value={{ch.point}}><span class=choice>  {{ch.text}}</span></label></div>'
     {% endfor %}
-    chooseList[ {{ choice[0].qid }} ] += temp;
+    chooseList[ {{ choice[0].qid }} ] = temp;
   {% endfor %}
 
   $(document).ready(function(){
@@ -27,6 +27,8 @@
 
   function appendTest(){
     ++id;
+    
+    this.console.log(chooseList[id]);
     var reader = new FileReader();
     var html = ''
     +'<img class=fit-picture src="/static/resources/img/질문'+id+'.jpg">'
@@ -44,6 +46,26 @@
     $("#surv").append(html);
   }
 
+  function goPrevious(){
+    --id;
+    
+    this.console.log(chooseList[id]);
+    var reader = new FileReader();
+    var html = ''
+    +'<img class=fit-picture src="/static/resources/img/질문'+id+'.jpg">'
+    + qList[id]
+    +'<form value='+id+'>'
+    + chooseList[id]
+    +'</form>'
+    +'<div>'
+    +'  <button class=gopreviousbutton type="submit" onclick="goPrevious();" >이전</button>'
+    +'  <button class=gonextbutton type="submit" onclick="appendTest();" >다음</button>'
+    +'</div>'
+    +'<button class=ad type="button" > 광고 모집 중.. </button>';
+    
+    $("#surv").empty();
+    $("#surv").append(html);
+  }
 
 </script>
 
