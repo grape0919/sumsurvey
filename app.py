@@ -93,7 +93,8 @@ def splash(result = None):
 
 @app.route('/survey/result/<result>')
 def result(result = None):
-    cur = g.db.cursor().execute('SELECT NAME FROM RESULT WHERE {ID}'.format(ID=result))
+    print("!@#!@# result : " + result)
+    cur = g.db.cursor().execute('SELECT NAME FROM RESULT WHERE R_ID={ID}'.format(ID=result))
     g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
     row = cur.fetchall()[0]
     name = row[0]
