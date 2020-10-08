@@ -152,7 +152,7 @@
       <h2>Q. {{ entries[0].question|safe }}</h2>
       <form value={{ id }} name=choicesform>
         {% for ch in choices[0] %}  
-          <div class=entries><label ><input type="radio" name="choice" value={{ch.point}}><span class=choice>  {{ch.text}}</span  ></label></div>
+          <div class=entries><label><input type="radio" name="choice" value={{ch.point}}><span class=choice>{{ch.text}}</span></label></div>
         {% endfor %}
       </form>
       <div>

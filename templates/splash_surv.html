@@ -5,7 +5,15 @@
   </head>
   <body>
     {% if True %}
-    <div class=flex-container>
+    <div >
+      <div class=head-background>
+        <span class=head-hb>나</span>
+        <span class=head-h>에게 맞는 </span>
+        <span class=head-hb>캠핑</span>
+        <span class=head-h>유형 알아보기</span>
+      </div>
+    </div>
+    <div>
       
       <img class=fit-picture src="{{ url_for('static', filename="resources/img/end.jpg") }}">
       <form action="/survey/result/{{result}}">

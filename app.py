@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # all the imports
 
 from __future__ import with_statement
@@ -78,8 +79,6 @@ def analz():
         cur = g.db.cursor().execute('SELECT C_NUMBER, TEXT, POINT FROM CHOICES WHERE Q_ID = {ID}'.format(ID=i+1))
         g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
         choices.append([dict(qid=i+1, number=row[0], text=row[1], point=row[2]) for row in cur.fetchall()])
-    
-    #dprint("!@#!@# choices : ", choices)
 
     return render_template('analz_surv.html', entries=entries, id=1, choices=choices, maxid=maxid)
 
@@ -93,13 +92,11 @@ def splash(result = None):
 
 @app.route('/survey/result/<result>')
 def result(result = None):
-    print("!@#!@# result : " + result)
     cur = g.db.cursor().execute('SELECT NAME FROM RESULT WHERE R_ID={ID}'.format(ID=result))
     g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
     row = cur.fetchall()[0]
     name = row[0]
-    print("!@#!@# name : " + name)
     return render_template('result_surv.html', name=name)
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port='80')
+    app.run(host='0.0.0.0', port='80')
