@@ -24,10 +24,10 @@ def connect_db():
 
 def init_db():
     with closing(connect_db()) as db:
-        with app.open_resource('rdbms\\0.DROP_TABLES.sql') as f:
+        with app.open_resource('rdbms/0.DROP_TABLES.sql') as f:
             db.cursor().executescript(f.read().decode('utf-8'))
         db.commit()
-        with app.open_resource('rdbms\\1.CREATE_TABLES.sql') as f:
+        with app.open_resource('rdbms/1.CREATE_TABLES.sql') as f:
             db.cursor().executescript(f.read().decode('utf-8'))
         db.commit()
 
