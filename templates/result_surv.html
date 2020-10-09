@@ -10,9 +10,11 @@
       <h2>{{name}}</h2>
       <img class=fit-picture src="{{ url_for('static', filename="resources/img/결과_" + name + "1.png") }}">
       <img class=fit-picture src="{{ url_for('static', filename="resources/img/결과_" + name + "2.png") }}">
+      <div class=form-center>
       <form action="/survey/analz">
         <button class=button type="submit" >검사 다시하기</button>
       </form>
+      </div>
       <button class=ad type="button" > 광고 모집 중.. </button>
     </div>
     {% endif %}

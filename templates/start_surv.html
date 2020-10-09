@@ -8,9 +8,11 @@
     <div class=flex-container>
       
       <img class=fit-picture src="{{ url_for('static', filename="resources/img/start.jpg") }}">
+      <div class=form-center>
       <form action="/survey/analz">
         <button class=button type="submit" >시작하기</button>
       </form>
+      </div>
       <button class=ad type="button" > 광고 모집 중.. </button>
     </div>
     {% endif %}

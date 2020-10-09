@@ -18,7 +18,10 @@
   {% for choice in choices %}
     var temp = '';
     {% for ch in choice %}
-      temp += '<div class=entries><label ><input type="radio" name="choice" value={{ch.point}}><span class=choice>  {{ch.text}}</span></label></div>'
+      temp += '<div class=entries>'
+        +'  <input type="radio" name="choice" id="{{ch.number}}" value={{ch.point}}/>'
+        +'  <button class=choice for="{{ch.number}}" type="button"><label  for="{{ch.number}}">{{ch.text}}</label></button>'
+        +'</div>';
     {% endfor %}
     chooseList[ '{{ choice[0].qid }}' ] = temp;
   {% endfor %}
@@ -70,10 +73,8 @@
     var html = ''
     +'<img class=fit-picture src="/static/resources/img/질문'+id+'.jpg">'
     + qList[id]
-    +'<form value='+id+'>'
     + chooseList[id]
-    +'</form>'
-    +'<div>'
+    +'<div class=form-center>'
     +'  <button class=gopreviousbutton type="submit" onclick="goPrevious();" >이전</button>'
     +'  <button class=gonextbutton type="submit" onclick="goNext();" >다음</button>'
     +'</div>'
@@ -94,10 +95,8 @@
     var html = ''
     +'<img class=fit-picture src="/static/resources/img/질문'+id+'.jpg">'
     + qList[id]
-    +'<form value='+id+'>'
     + chooseList[id]
-    +'</form>'
-    +'<div>'
+    +'<div class=form-center>'
     +'  <button class=gopreviousbutton type="submit" onclick="goPrevious();" >이전</button>'
     +'  <button class=gonextbutton type="submit" onclick="goNext();" >다음</button>'
     +'</div>'
@@ -150,15 +149,17 @@
     <div class=flex-container id='surv'>
       <img class=fit-picture src="{{ url_for('static', filename="resources/img/질문1.jpg") }}">
       <h2>Q. {{ entries[0].question|safe }}</h2>
-      <form value={{ id }} name=choicesform>
-        {% for ch in choices[0] %}  
-          <div class=entries><label><input type="radio" name="choice" value={{ch.point}}><span class=choice>{{ch.text}}</span></label></div>
-        {% endfor %}
-      </form>
-      <div>
-          <button class=gopreviousbutton type="submit" onclick="goPrevious();" >이전</button>
-          <button class=gonextbutton type="submit" onclick="goNext();" >다음</button>
+      {% for ch in choices[0] %}  
+        <div class=entries>
+          <input type="radio" name="choice" id="{{ch.number}}" value={{ch.point}}/>
+          <button class=choice for="{{ch.number}}" type="button"><label  for="{{ch.number}}">{{ch.text}}</label></button>
+        </div>
+      {% endfor %}
+      <div class=form-center>
+        <button class=gopreviousbutton type="submit" onclick="goPrevious();" >이전</button>
+        <button class=gonextbutton type="submit" onclick="goNext();" >다음</button>
       </div>
+      
       
       <button class=ad type="button" > 광고 모집 중.. </button>
     </div>
