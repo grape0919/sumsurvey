@@ -19,7 +19,7 @@
     var temp = '';
     {% for ch in choice %}
       temp += '<div class=entries>'
-        +'  <input type="radio" name="choice" id="{{ch.number}}" value={{ch.point}}/>'
+        +'  <input type="radio" name="choice" id="{{ch.number}}" value={{ch.point}} />'
         +'  <button class=choice for="{{ch.number}}" type="button"><label  for="{{ch.number}}">{{ch.text}}</label></button>'
         +'</div>';
     {% endfor %}
@@ -151,7 +151,7 @@
       <h2>Q. {{ entries[0].question|safe }}</h2>
       {% for ch in choices[0] %}  
         <div class=entries>
-          <input type="radio" name="choice" id="{{ch.number}}" value={{ch.point}}/>
+          <input type="radio" name="choice" id="{{ch.number}}" value={{ch.point}} />
           <button class=choice for="{{ch.number}}" type="button"><label  for="{{ch.number}}">{{ch.text}}</label></button>
         </div>
       {% endfor %}
