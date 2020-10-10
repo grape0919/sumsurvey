@@ -4,15 +4,14 @@ h1, h2          { margin: 20; }
 h1              { border-bottom: 2px solid #eee; }
 h2              { font-size: large; }
 label           { width:100%; float:left;}
-form            { width:100%;}
 .flex-container{ width: 100%; display: flex; flex-direction: column; -webkit-box-align: center;
                  align-items: center; -webkit-box-pack: center; justify-content: center; }
 
 .page           { margin: 2em auto; width: 35em; border: 5px solid #ccc;
                   padding: 0.8em; background: white; top:50%; left:50%;}
-.entries        { width: 60%; margin-top: 10px; }
-.choice         { width: 90%; margin-top: 10px; background: #ccc; text-align: left;
-                  margin-left: 10px; padding-top: 5px; padding-bottom: 5px;}
+.entries        { width: 70%; margin-top: 1%; }
+.choice         { width: 90%; margin-top: 1%; background: #ccc; text-align: left;
+                  margin-left: 1%px; padding-top: 5px; padding-bottom: 5px;}
 .add-entry      { font-size: 0.9em; border-bottom: 1px solid #ccc; }
 .add-entry dl   { font-weight: bold; }
 .metanav        { text-align: right; font-size: 0.8em; padding: 0.3em;
@@ -24,15 +23,15 @@ form            { width:100%;}
 
 .centerWindow   { position:absolute; top:50%; left:50%; margin-top:-50px; margin-left:-50px; }
 
-.button         { border-radius: 5px; background: rgb(65, 147, 255); color: white; width: 20%; height: 40px; margin-top: 2%; margin-left:40%;}
-.gonextbutton       { border-radius: 5px; background: rgb(65, 147, 255); color: white; width: 10%; height: 30px; margin-top: 2%; margin-left: 20%;}
-.gopreviousbutton       { border-radius: 5px; background: #ccc; color: white; width: 10%; height: 30px; margin-top: 2%;margin-left:30%}
+.button         { border-radius: 5px; background: rgb(65, 147, 255); color: white; width: 20%; height: 40px; margin-top: 2%;}
+.gonextbutton       { border-radius: 5px; background: rgb(65, 147, 255); color: white; width: 20%; height: 30px; margin-top: 2%; margin-left: 20%;}
+.gopreviousbutton       { border-radius: 5px; background: #ccc; color: white; width: 20%; height: 30px; margin-top: 2%;margin-left:20%}
 
 .ad             { width: 50%; height: 50px; margin-top: 30px;}
 
-.head-background{ width: 40%; height: 100%;  background: #ccc; align-items: center; text-align: center; padding-top:20px;padding-bottom:20px; margin: 20px;}
+.head-background{ width: 50%; background: #ccc; text-align: center; padding-top:20px;padding-bottom:20px;
+                 margin-left: 25%; margin-top: 20px; margin-bottom: 20px;}
 .head-h         {font-size: large; }
 .head-hb        {font-weight: bold; font-size: large;}
 
 .radio {background-color: white;}
-.form-center {display: inline-block; width:100%;}

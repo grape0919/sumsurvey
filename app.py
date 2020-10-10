@@ -7,6 +7,7 @@ from contextlib import closing
 import sqlite3
 from flask import Flask, request, session, g, redirect, url_for, \
      abort, render_template, flash
+from flask_bootstrap import Bootstrap
 
 # configuration
 DATABASE = 'rdbms/sumsurvey.db'
@@ -18,6 +19,7 @@ PASSWORD = 'default'
 # create our little application :)
 app = Flask(__name__)
 app.config.from_object(__name__)
+Bootstrap(app)
 
 def connect_db():
     return sqlite3.connect(DATABASE)

@@ -1,167 +1,165 @@
-<!doctype html>
-<script type="text/JavaScript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
+{% extends "bootstrap/base.html" %}
 
-<script type="text/javascript">
-  var maxid = {{maxid}};
-  var id = {{id}};
-  var qList = [];
-  var chooseList = [];
+{% block styles%}
+  {{super()}}
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+{% endblock %}
 
-  var checkedList = [];
+{% block body %}
+  {% block scripts %}
+  <script type="text/javascript">
+    var maxid = {{maxid}};
+    var id = {{id}};
+    var qList = [];
+    var chooseList = [];
 
-  var checkedValue = [];
+    var checkedList = [];
 
-  {% for e in entries %}
-    qList[{{e.id}}] = "<h2>Q. {{ e.question }} </h2>"
-  {% endfor %}
+    var checkedValue = [];
 
-  {% for choice in choices %}
-    var temp = '';
-    {% for ch in choice %}
-      temp += '<div class=entries>'
-        +'  <input type="radio" name="choice" id="{{ch.number}}" value={{ch.point}} />'
-        +'  <button class=choice for="{{ch.number}}" type="button"><label  for="{{ch.number}}">{{ch.text}}</label></button>'
-        +'</div>';
+    {% for e in entries %}
+      qList[{{e.id}}] = '<h2 class="center-block" style="width: 50%;">Q. {{ e.question }} </h2>'
     {% endfor %}
-    chooseList[ '{{ choice[0].qid }}' ] = temp;
-  {% endfor %}
 
-  $(document).ready(function(){
-    $("#staticSB").change(function() {
-          alert(" 정적 변경 감지");
-      })
-  })
+    {% for choice in choices %}
+      var temp = '';
+      {% for ch in choice %}
+        temp += '<div class="entries center-block">'
+          +'  <input type="radio" name="choice" id="{{ch.number}}" value={{ch.point}} />'
+          +'  <button class=choice for="{{ch.number}}" type="button"><label  for="{{ch.number}}">{{ch.text}}</label></button>'
+          +'</div>';
+      {% endfor %}
+      chooseList[ '{{ choice[0].qid }}' ] = temp;
+    {% endfor %}
 
-  function goNext(){
-    
-    if(!value_check()){
-      return;
-    }
-    
-    if(id == maxid){
-      var temp = [];
+
+    function goNext(){
       
-      for(var j = 0; j < checkedValue.length; j++){
+      if(!value_check()){
+        return;
+      }
+      
+      if(id == maxid){
+        var temp = [];
         
-        if(checkedValue[j] >= 0){
-          var v = checkedValue[j];
-          for(var i = 0;i < 4; i++){
-            if (!(temp[i] >= 0)){
-              temp[i] = 0;
+        for(var j = 0; j < checkedValue.length; j++){
+          
+          if(checkedValue[j] >= 0){
+            var v = checkedValue[j];
+            for(var i = 0;i < 4; i++){
+              if (!(temp[i] >= 0)){
+                temp[i] = 0;
+              }
+              
+              temp[i] += v & 1;
+              
+              v = v >> 1;
             }
-            
-            temp[i] += v & 1;
-            
-            v = v >> 1;
           }
         }
+        var max = 0;
+        var result = -1;
+        for(var i = 0; i < temp.length; i++){
+          if(temp[i] > max){
+            max = temp[i];
+            result = i+1;
+          }
+        }
+        location.href = "/survey/splash/"+result;
+        return;
+      }else{
+        ++id;
       }
-      var max = 0;
-      var result = -1;
-      for(var i = 0; i < temp.length; i++){
-        if(temp[i] > max){
-          max = temp[i];
-          result = i+1;
+      var reader = new FileReader();
+      var html = ''
+      +'<img class="fit-picture center-block" src="/static/resources/img/질문'+id+'.jpg">'
+      + qList[id]
+      + chooseList[id]
+      +'<div class="center-block">'
+      +'  <button class=gopreviousbutton type="submit" onclick="goPrevious();" >이전</button>'
+      +'  <button class=gonextbutton type="submit" onclick="goNext();" >다음</button>'
+      +'</div>';
+      
+      $("#surv").empty();
+      $("#surv").append(html);
+      radio_check();
+    }
+
+    function goPrevious(){
+      if(id == 1){
+        return;
+      }else{
+        --id;
+      }
+      var reader = new FileReader();
+      var html = ''
+      +'<img class="fit-picture center-block" src="/static/resources/img/질문'+id+'.jpg">'
+      + qList[id]
+      + chooseList[id]
+      +'<div class="center-block">'
+      +'  <button class=gopreviousbutton type="submit" onclick="goPrevious();" >이전</button>'
+      +'  <button class=gonextbutton type="submit" onclick="goNext();" >다음</button>'
+      +'</div>';
+      
+      $("#surv").empty();
+      $("#surv").append(html);
+      radio_check();
+    }
+
+    function value_check() {
+      var check_count = document.getElementsByName("choice").length;
+      var isChecked = false;
+      for (var i=0; i<check_count; i++) {
+        if (document.getElementsByName("choice")[i].checked == true) {
+          checkedList[id] = i;
+          checkedValue[id] = document.getElementsByName("choice")[i].value;
+          isChecked = true;
         }
       }
-      location.href = "/survey/splash/"+result;
-      return;
-    }else{
-      ++id;
-    }
-    var reader = new FileReader();
-    var html = ''
-    +'<img class=fit-picture src="/static/resources/img/질문'+id+'.jpg">'
-    + qList[id]
-    + chooseList[id]
-    +'<div class=form-center>'
-    +'  <button class=gopreviousbutton type="submit" onclick="goPrevious();" >이전</button>'
-    +'  <button class=gonextbutton type="submit" onclick="goNext();" >다음</button>'
-    +'</div>'
-    +'<button class=ad type="button" > 광고 모집 중.. </button>';
-    
-    $("#surv").empty();
-    $("#surv").append(html);
-    radio_check();
-  }
 
-  function goPrevious(){
-    if(id == 1){
-      return;
-    }else{
-      --id;
-    }
-    var reader = new FileReader();
-    var html = ''
-    +'<img class=fit-picture src="/static/resources/img/질문'+id+'.jpg">'
-    + qList[id]
-    + chooseList[id]
-    +'<div class=form-center>'
-    +'  <button class=gopreviousbutton type="submit" onclick="goPrevious();" >이전</button>'
-    +'  <button class=gonextbutton type="submit" onclick="goNext();" >다음</button>'
-    +'</div>'
-    +'<button class=ad type="button" > 광고 모집 중.. </button>';
-    
-    $("#surv").empty();
-    $("#surv").append(html);
-    radio_check();
-  }
-
-  function value_check() {
-    var check_count = document.getElementsByName("choice").length;
-    var isChecked = false;
-    for (var i=0; i<check_count; i++) {
-      if (document.getElementsByName("choice")[i].checked == true) {
-        checkedList[id] = i;
-        checkedValue[id] = document.getElementsByName("choice")[i].value;
-        isChecked = true;
+      if(!isChecked){
+        alert("질문에 응답하지 않으셨습니다.");
+        return false;
+      }else{
+        return true;
       }
     }
 
-    if(!isChecked){
-      alert("질문에 응답하지 않으셨습니다.");
-      return false;
-    }else{
-      return true;
+    function radio_check(){
+      if( checkedList[id] >= 0){
+        document.getElementsByName("choice")[checkedList[id]].checked = true;
+      }
     }
-  }
 
-  function radio_check(){
-    if( checkedList[id] >= 0){
-      document.getElementsByName("choice")[checkedList[id]].checked = true;
-    }
-  }
-
-</script>
-
-<head>
-  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
-</head>
-  <body>
-    <div class=flex-container>
-      <div class=head-background>
-        <span class=head-hb>나</span>
-        <span class=head-h>에게 맞는 </span>
-        <span class=head-hb>캠핑</span>
-        <span class=head-h>유형 알아보기</span>
-      </div>
+  </script>
+  
+  {{super()}}
+  {%endblock%}
+  
+  {{super()}}
+  <div class="container">
+    <div class="head-background center-block">
+      <span class=head-hb>나</span>
+      <span class=head-h>에게 맞는 </span>
+      <span class=head-hb>캠핑</span>
+      <span class=head-h>유형 알아보기</span>
     </div>
-    <div class=flex-container id='surv'>
-      <img class=fit-picture src="{{ url_for('static', filename="resources/img/질문1.jpg") }}">
-      <h2>Q. {{ entries[0].question|safe }}</h2>
+    <div id='surv'>
+      <img class="fit-picture center-block" src="{{ url_for('static', filename="resources/img/질문1.jpg") }}">
+      <h2 class="center-block" style="width: 50%;">Q. {{ entries[0].question|safe }}</h2>
       {% for ch in choices[0] %}  
-        <div class=entries>
+        <div class="entries center-block">
           <input type="radio" name="choice" id="{{ch.number}}" value={{ch.point}} />
           <button class=choice for="{{ch.number}}" type="button"><label  for="{{ch.number}}">{{ch.text}}</label></button>
         </div>
       {% endfor %}
-      <div class=form-center>
+      <div class="center-block">
         <button class=gopreviousbutton type="submit" onclick="goPrevious();" >이전</button>
         <button class=gonextbutton type="submit" onclick="goNext();" >다음</button>
       </div>
       
       
-      <button class=ad type="button" > 광고 모집 중.. </button>
     </div>
-  </body>
-</html>
+    <button class="ad center-block" type="button" > 광고 모집 중.. </button>
+  </div>
+{% endblock %}
