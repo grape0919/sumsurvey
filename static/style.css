@@ -2,14 +2,14 @@ body            { font-family: sans-serif; background: #ffffff; }
 a, h1, h2       { color: black; }
 h1, h2          { margin: 20; }
 h1              { border-bottom: 2px solid #eee; }
-h2              { font-size: large; }
+h2              { width: 100%; text-align: center; font-size: large; }
 label           { width:100%; float:left;}
 .flex-container{ width: 100%; display: flex; flex-direction: column; -webkit-box-align: center;
                  align-items: center; -webkit-box-pack: center; justify-content: center; }
 
 .page           { margin: 2em auto; width: 35em; border: 5px solid #ccc;
                   padding: 0.8em; background: white; top:50%; left:50%;}
-.entries        { width: 70%; margin-top: 1%; }
+.entries        { width: 90%; margin-top: 1%; }
 .choice         { width: 90%; margin-top: 1%; background: #ccc; text-align: left;
                   margin-left: 1%px; padding-top: 5px; padding-bottom: 5px;}
 .add-entry      { font-size: 0.9em; border-bottom: 1px solid #ccc; }
@@ -19,18 +19,18 @@ label           { width:100%; float:left;}
 .flash          { background: #CEE5F5; padding: 0.5em;
                   border: 1px solid #AACBE2; }
 .error          { background: #F0D6D6; padding: 0.5em; }
-.fit-picture    { width: 50%; align-content: center;}
+.fit-picture    { width: 90%; align-content: center;}
 
 .centerWindow   { position:absolute; top:50%; left:50%; margin-top:-50px; margin-left:-50px; }
 
-.button         { border-radius: 5px; background: rgb(65, 147, 255); color: white; width: 20%; height: 40px; margin-top: 2%;}
-.gonextbutton       { border-radius: 5px; background: rgb(65, 147, 255); color: white; width: 20%; height: 30px; margin-top: 2%; margin-left: 20%;}
-.gopreviousbutton       { border-radius: 5px; background: #ccc; color: white; width: 20%; height: 30px; margin-top: 2%;margin-left:20%}
+.button         { border-radius: 5px; background: rgb(65, 147, 255); color: white; width: 40%; height: 40px; margin-top: 2%;}
+.gonextbutton       { border-radius: 5px; background: rgb(65, 147, 255); color: white; width: 40%; height: 30px; margin-top: 2%; margin-left: 10%;}
+.gopreviousbutton       { border-radius: 5px; background: #ccc; color: white; width: 40%; height: 30px; margin-top: 2%;margin-left:5%}
 
 .ad             { width: 50%; height: 50px; margin-top: 30px;}
 
-.head-background{ width: 50%; background: #ccc; text-align: center; padding-top:20px;padding-bottom:20px;
-                 margin-left: 25%; margin-top: 20px; margin-bottom: 20px;}
+.head-background{ width: 100%; background: #ccc; text-align: center; padding-top:20px;padding-bottom:20px;
+                 margin-top: 20px; margin-bottom: 20px;}
 .head-h         {font-size: large; }
 .head-hb        {font-weight: bold; font-size: large;}
 

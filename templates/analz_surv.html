@@ -18,7 +18,7 @@
     var checkedValue = [];
 
     {% for e in entries %}
-      qList[{{e.id}}] = '<h2 class="center-block" style="width: 50%;">Q. {{ e.question }} </h2>'
+      qList[{{e.id}}] = '<h2 class="center-block">Q. {{ e.question }} </h2>'
     {% endfor %}
 
     {% for choice in choices %}
@@ -146,7 +146,7 @@
     </div>
     <div id='surv'>
       <img class="fit-picture center-block" src="{{ url_for('static', filename="resources/img/질문1.jpg") }}">
-      <h2 class="center-block" style="width: 50%;">Q. {{ entries[0].question|safe }}</h2>
+      <h2 class="center-block">Q. {{ entries[0].question|safe }}</h2>
       {% for ch in choices[0] %}  
         <div class="entries center-block">
           <input type="radio" name="choice" id="{{ch.number}}" value={{ch.point}} />
