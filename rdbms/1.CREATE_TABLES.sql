@@ -30,6 +30,14 @@ create table RESULT(
 
 );
 
+create table STATISTIC(
+	ID INTEGER PRIMARY KEY AUTOINCREMENT,
+	R_ID INTEGER not null,
+	CNT INTEGER DEFAULT 0,
+	CONSTRAINT STATISTIC_FK FOREIGN KEY(R_ID)
+	REFERENCES RESULT(R_ID)
+);
+
 --답변
 insert into QUESTION(Q_ID, TITLE, QUESTION) values(1, '여행_짐', '1박2일 짧은 여행을 떠날 때에 나는...');
 insert into QUESTION(Q_ID, TITLE, QUESTION) values(2, '여행_식사', '나는 여행지에서 식사를 주로,,,');
@@ -126,3 +134,9 @@ insert into RESULT(R_ID, NAME) values(1, '캠핑');
 insert into RESULT(R_ID, NAME) values(2, '글램핑');
 insert into RESULT(R_ID, NAME) values(3, '오토캠핑');
 insert into RESULT(R_ID, NAME) values(4, '비박');
+
+-- 통계정보
+insert into STATISTIC(R_ID, CNT) values(1, 0);
+insert into STATISTIC(R_ID, CNT) values(2, 0);
+insert into STATISTIC(R_ID, CNT) values(3, 0);
+insert into STATISTIC(R_ID, CNT) values(4, 0);

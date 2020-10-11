@@ -1,0 +1,32 @@
+{% extends "bootstrap/base.html" %}
+{% block styles%}
+  {{super()}}
+{% endblock %}
+{% block body %}
+    <div class="containter">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>결과</th>
+                    <th>조회수</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for cnt in cntlist %}
+                <tr>
+                    <td>{{cnt[0]}}</td>
+                    <td>{{cnt[1]}}</td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+            <tbody>
+                <tr>
+                    <td>합산</td>
+                    <td>{{sum}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
