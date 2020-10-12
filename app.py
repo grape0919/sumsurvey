@@ -42,6 +42,15 @@ def before_request():
 def teardown_request(exception):
     g.db.close()
 
+
+@app.route('/')
+def start():
+
+    g.db.cursor().execute('update STATISTIC set CNT = (SELECT CNT FROM STATISTIC where R_ID = {ID})+1 where R_ID = {ID}'.format(ID=0))
+    g.db.commit()
+
+    return render_template('start_surv.html')
+
 @app.route('/survey/<id>')
 def show_entries(id=None):
     #질문
@@ -84,10 +93,6 @@ def analz():
 
     return render_template('analz_surv.html', entries=entries, id=1, choices=choices, maxid=maxid)
 
-@app.route('/')
-def start():
-    return render_template('start_surv.html')
-
 @app.route('/survey/splash/<result>')
 def splash(result = None):
     return render_template('splash_surv.html', result=result)
@@ -99,20 +104,21 @@ def result(result = None):
     row = cur.fetchall()[0]
     name = row[0]
 
-    cur = g.db.cursor().execute('update STATISTIC set CNT = (SELECT CNT FROM STATISTIC where R_ID = {ID})+1 where R_ID = {ID}'.format(ID=result))
+    g.db.cursor().execute('update STATISTIC set CNT = (SELECT CNT FROM STATISTIC where R_ID = {ID})+1 where R_ID = {ID}'.format(ID=result))
     g.db.commit()
 
     return render_template('result_surv.html', name=name)
 
+#통계
 @app.route('/survey/statistic')
 def statistic():
-    cur = g.db.cursor().execute('SELECT R_ID, CNT FROM STATISTIC')
+    cur = g.db.cursor().execute('SELECT R_ID, CNT FROM STATISTIC where R_ID != 0')
     g.db.commit()
     cnt_list = []
     for row in cur.fetchall():
         cnt_list.append((row[0], row[1]))
 
-    for index in range(len(cnt_list)):
+    for index in range(1, len(cnt_list)):
         cur = g.db.cursor().execute('SELECT NAME FROM RESULT WHERE R_ID={ID}'.format(ID=cnt_list[index][0]))
         g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
         name = cur.fetchall()[0][0]
@@ -120,7 +126,12 @@ def statistic():
     
     summary = sum([row[1] for row in cnt_list])
 
-    return render_template('statistic.html', cntlist=cnt_list, sum = summary)
+    #방문 횟수
+    cur = g.db.cursor().execute('SELECT CNT FROM STATISTIC WHERE R_ID=0')
+    g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
+    visitCnt = cur.fetchall()[0][0]
+
+    return render_template('statistic.html', cntlist=cnt_list, sum = summary, visit=visitCnt)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port='80')

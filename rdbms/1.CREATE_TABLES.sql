@@ -136,6 +136,7 @@ insert into RESULT(R_ID, NAME) values(3, '오토캠핑');
 insert into RESULT(R_ID, NAME) values(4, '비박');
 
 -- 통계정보
+insert into STATISTIC(R_ID, CNT) values(0, 0);
 insert into STATISTIC(R_ID, CNT) values(1, 0);
 insert into STATISTIC(R_ID, CNT) values(2, 0);
 insert into STATISTIC(R_ID, CNT) values(3, 0);
