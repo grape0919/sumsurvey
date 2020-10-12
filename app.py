@@ -118,7 +118,7 @@ def statistic():
     for row in cur.fetchall():
         cnt_list.append((row[0], row[1]))
 
-    for index in range(1, len(cnt_list)):
+    for index in range(1, len(cnt_list)+1):
         cur = g.db.cursor().execute('SELECT NAME FROM RESULT WHERE R_ID={ID}'.format(ID=cnt_list[index-1][0]))
         g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
         name = cur.fetchall()[0][0]
