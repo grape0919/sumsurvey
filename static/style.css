@@ -27,7 +27,7 @@ label           { width:100%; float:left;}
 .gonextbutton       { border-radius: 5px; background: rgb(65, 147, 255); color: white; width: 40%; height: 30px; margin-top: 2%; margin-left: 10%;}
 .gopreviousbutton       { border-radius: 5px; background: #ccc; color: white; width: 40%; height: 30px; margin-top: 2%;margin-left:5%}
 
-.ad             { width: 50%; height: 50px; margin-top: 30px;}
+.ad             { width: 50%; height: 50px; margin-top: 30px; background-color: white;}
 
 .head-background{ width: 100%; background: #ccc; text-align: center; padding-top:20px;padding-bottom:20px;
                  margin-top: 20px; margin-bottom: 20px;}
