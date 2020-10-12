@@ -119,10 +119,10 @@ def statistic():
         cnt_list.append((row[0], row[1]))
 
     for index in range(1, len(cnt_list)):
-        cur = g.db.cursor().execute('SELECT NAME FROM RESULT WHERE R_ID={ID}'.format(ID=cnt_list[index][0]))
+        cur = g.db.cursor().execute('SELECT NAME FROM RESULT WHERE R_ID={ID}'.format(ID=cnt_list[index-1][0]))
         g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
         name = cur.fetchall()[0][0]
-        cnt_list[index] = (name ,cnt_list[index][1])
+        cnt_list[index-1] = (name ,cnt_list[index-1][1])
     
     summary = sum([row[1] for row in cnt_list])
 
