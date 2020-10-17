@@ -5,8 +5,7 @@ from __future__ import with_statement
 from contextlib import closing
 
 import sqlite3
-from flask import Flask, request, session, g, redirect, url_for, \
-     abort, render_template, flash
+from flask import Flask, g, render_template
 from flask_bootstrap import Bootstrap
 
 # configuration
