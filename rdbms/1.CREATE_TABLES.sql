@@ -75,8 +75,8 @@ insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (6,1,'경륜, 경정 등 �
 insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (6,2,'불법도박이 접근하기 쉬워서', 1);
 insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (6,3,'불법도박이 배당률이 높아서', 1);
 insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (6,4,'단순 호기심', 1);
-insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (6,4,'신속하게 환전이 가능해서', 1);
-insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (6,4,'기타', 1);
+insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (6,5,'신속하게 환전이 가능해서', 1);
+insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (6,6,'기타', 1);
 
 insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (7,1,'이용했습니다.', 1);
 insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (7,2,'이용하지 않았습니다.', 1);
