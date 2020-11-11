@@ -93,6 +93,7 @@ insert into RESULT(R_ID, NAME) values(3, '감사합니다');
 insert into RESULT(R_ID, NAME) values(4, '감사합니다');
 
 -- 통계정보
+insert into STATISTIC(Q_ID, CNT) values(0, 0);
 insert into STATISTIC(Q_ID, CNT) values(1, 0);
 insert into STATISTIC(Q_ID, CNT) values(2, 0);
 insert into STATISTIC(Q_ID, CNT) values(3, 0);
