@@ -33,13 +33,13 @@ create table RESULT(
 create table COMPLETE_SURVEY(
 	ID INTEGER not null,
 	Q_ID INTEGER not null,
-	C_ID INTEGER not null
+	C_ID INTEGER not null,
 	CONSTRAINT COMPLETE_FK FOREIGN KEY(Q_ID)
 	REFERENCES QUESTION(Q_ID)
 	CONSTRAINT COMPLETE_FK2 FOREIGN KEY(C_ID)
 	REFERENCES CHOICES(C_ID)
-	PRIMARY KEY(ID)
-)
+	PRIMARY KEY(ID, Q_ID)
+);
 
 create table STATISTIC(
 	ID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -61,40 +61,40 @@ insert into QUESTION(Q_ID, TITLE, QUESTION) values(8, '온라인구매이용', '
 
 --문항
 insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (1,1,'남성', 1);
-insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (1,2,'여성', 1);
+insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (1,2,'여성', 2);
 
 insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (2,1,'20대', 1);
-insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (2,2,'30대', 1);
-insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (2,3,'40대', 1);
-insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (2,4,'50대', 1);
+insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (2,2,'30대', 2);
+insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (2,3,'40대', 3);
+insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (2,4,'50대', 4);
 
 insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (3,1,'나들이 또는 데이트', 1);
-insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (3,2,'베팅참여', 1);
-insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (3,3,'스포츠(경주)관람', 1);
-insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (3,4,'내부시설이용', 1);
-insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (3,5,'기타', 1);
+insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (3,2,'베팅참여', 2);
+insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (3,3,'스포츠(경주)관람', 3);
+insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (3,4,'내부시설이용', 4);
+insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (3,5,'기타', 5);
 
 insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (4,1,'있습니다.', 1);
-insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (4,2,'없습니다.', 1);
+insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (4,2,'없습니다.', 2);
 
 insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (5,1,'온라인 불법사이트', 1);
-insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (5,2,'집 근처 불법도박시설', 1);
-insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (5,3,'기타', 1);
-insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (5,4,'해당없음', 1);
+insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (5,2,'집 근처 불법도박시설', 2);
+insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (5,3,'기타', 3);
+insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (5,4,'해당없음', 4);
 
 insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (6,1,'경륜, 경정 등 합법사업이 휴장해서', 1);
-insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (6,2,'불법도박이 접근하기 쉬워서', 1);
-insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (6,3,'불법도박이 배당률이 높아서', 1);
-insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (6,4,'단순 호기심', 1);
-insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (6,5,'신속하게 환전이 가능해서', 1);
-insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (6,6,'기타', 1);
+insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (6,2,'불법도박이 접근하기 쉬워서', 2);
+insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (6,3,'불법도박이 배당률이 높아서', 3);
+insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (6,4,'단순 호기심', 4);
+insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (6,5,'신속하게 환전이 가능해서', 5);
+insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (6,6,'기타', 6);
 
 insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (7,1,'이용했습니다.', 1);
-insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (7,2,'이용하지 않았습니다.', 1);
+insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (7,2,'이용하지 않았습니다.', 2);
 
 insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (8,1,'이용하겠습니다.', 1);
-insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (8,2,'이용하지 않겠습니다.', 1);
-insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (8,3,'모르겠습니다.', 1);
+insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (8,2,'이용하지 않겠습니다.', 2);
+insert into CHOICES(Q_ID,C_NUMBER,TEXT,POINT) values (8,3,'모르겠습니다.', 3);
 
 
 -- 결과

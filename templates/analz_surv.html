@@ -40,32 +40,9 @@
       }
       
       if(id == maxid){
-        var temp = [];
-        
-        for(var j = 0; j < checkedValue.length; j++){
-          
-          if(checkedValue[j] >= 0){
-            var v = checkedValue[j];
-            for(var i = 0;i < 4; i++){
-              if (!(temp[i] >= 0)){
-                temp[i] = 0;
-              }
-              
-              temp[i] += v & 1;
-              
-              v = v >> 1;
-            }
-          }
-        }
-        var max = 0;
-        var result = -1;
-        for(var i = 0; i < temp.length; i++){
-          if(temp[i] > max){
-            max = temp[i];
-            result = i+1;
-          }
-        }
-        location.href = "/survey/splash/"+result;
+        var temp = checkedValue.toString();
+        console.log("temp = "+temp)
+        location.href = "/survey/splash/"+temp;
         return;
       }else{
         ++id;
@@ -142,7 +119,7 @@
     <div class="head-background center-block">
       <span class=head-hb>불법도박 관련 이용 경험 설문조사</span>
     </div>
-    <div id='surv'>
+    <div id='surv' class='surv'>
       <!-- <img class="fit-picture center-block" src="{{ url_for('static', filename="resources/img/질문1.jpg") }}"> -->
       <p class="center-block qa" >Q. {{ entries[0].question|safe }}</p>
       {% for ch in choices[0] %} 
