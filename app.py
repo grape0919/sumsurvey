@@ -45,7 +45,7 @@ def teardown_request(exception):
 @app.route('/')
 def start():
 
-    g.db.cursor().execute('update STATISTIC set CNT = (SELECT CNT FROM STATISTIC where R_ID = {ID})+1 where R_ID = {ID}'.format(ID=0))
+    g.db.cursor().execute('update STATISTIC set CNT = (SELECT CNT FROM STATISTIC where Q_ID = {ID})+1 where Q_ID = {ID}'.format(ID=0))
     g.db.commit()
 
     return render_template('start_surv.html')
@@ -103,7 +103,7 @@ def result(result = None):
     row = cur.fetchall()[0]
     name = row[0]
 
-    g.db.cursor().execute('update STATISTIC set CNT = (SELECT CNT FROM STATISTIC where R_ID = {ID})+1 where R_ID = {ID}'.format(ID=result))
+    g.db.cursor().execute('update STATISTIC set CNT = (SELECT CNT FROM STATISTIC where Q_ID = {ID})+1 where Q_ID = {ID}'.format(ID=result))
     g.db.commit()
 
     return render_template('result_surv.html', name=name)
@@ -111,7 +111,7 @@ def result(result = None):
 #통계
 @app.route('/survey/statistic')
 def statistic():
-    cur = g.db.cursor().execute('SELECT R_ID, CNT FROM STATISTIC where R_ID != 0')
+    cur = g.db.cursor().execute('SELECT R_ID, CNT FROM STATISTIC where Q_ID != 0')
     g.db.commit()
     cnt_list = []
     for row in cur.fetchall():
@@ -126,7 +126,7 @@ def statistic():
     summary = sum([row[1] for row in cnt_list])
 
     #방문 횟수
-    cur = g.db.cursor().execute('SELECT CNT FROM STATISTIC WHERE R_ID=0')
+    cur = g.db.cursor().execute('SELECT CNT FROM STATISTIC WHERE Q_ID=0')
     g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
     visitCnt = cur.fetchall()[0][0]
 
