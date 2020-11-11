@@ -5,8 +5,13 @@ from __future__ import with_statement
 from contextlib import closing
 
 import sqlite3
-from flask import Flask, g, render_template
+from flask import Flask, g, render_template, Response
 from flask_bootstrap import Bootstrap
+
+import io
+import random 
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.figure import Figure
 
 # configuration
 DATABASE = 'rdbms/sumsurvey.db'
@@ -111,7 +116,7 @@ def result(result = None):
 #통계
 @app.route('/survey/statistic')
 def statistic():
-    cur = g.db.cursor().execute('SELECT R_ID, CNT FROM STATISTIC where Q_ID != 0')
+    cur = g.db.cursor().execute('SELECT Q_ID, CNT FROM STATISTIC where Q_ID != 0')
     g.db.commit()
     cnt_list = []
     for row in cur.fetchall():
@@ -131,6 +136,24 @@ def statistic():
     visitCnt = cur.fetchall()[0][0]
 
     return render_template('statistic.html', cntlist=cnt_list, sum = summary, visit=visitCnt)
+
+#그래프
+@app.route('/survey/graph')
+def chart():
+
+    fig = create_figure()
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    return Response(output.getvalue(), mimetype='image/png')
+
+def create_figure():
+    fig = Figure()
+    axis = fig.add_subplot(1, 1, 1)
+    xs = range(100)
+    ys = [random.randint(1, 50) for x in xs]
+    axis.plot(xs, ys)
+    return fig
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port='80')
