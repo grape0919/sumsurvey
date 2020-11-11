@@ -72,7 +72,7 @@
       }
       var reader = new FileReader();
       var html = ''
-      +'<img class="fit-picture center-block" src="/static/resources/img/질문'+id+'.jpg">'
+      // +'<img class="fit-picture center-block" src="/static/resources/img/질문'+id+'.jpg">'
       + qList[id]
       + chooseList[id]
       +'<div class="center-block">'
@@ -93,7 +93,7 @@
       }
       var reader = new FileReader();
       var html = ''
-      +'<img class="fit-picture center-block" src="/static/resources/img/질문'+id+'.jpg">'
+      // +'<img class="fit-picture center-block" src="/static/resources/img/질문'+id+'.jpg">'
       + qList[id]
       + chooseList[id]
       +'<div class="center-block">'
@@ -139,13 +139,10 @@
   {{super()}}
   <div class="container">
     <div class="head-background center-block">
-      <span class=head-hb>나</span>
-      <span class=head-h>에게 맞는 </span>
-      <span class=head-hb>캠핑</span>
-      <span class=head-h>유형 알아보기</span>
+      <span class=head-hb>불법도박 관련 이용 경험 설문조사</span>
     </div>
     <div id='surv'>
-      <img class="fit-picture center-block" src="{{ url_for('static', filename="resources/img/질문1.jpg") }}">
+      <!-- <img class="fit-picture center-block" src="{{ url_for('static', filename="resources/img/질문1.jpg") }}"> -->
       <h2 class="center-block">Q. {{ entries[0].question|safe }}</h2>
       {% for ch in choices[0] %}  
         <div class="entries center-block">
