@@ -99,18 +99,18 @@ def analz():
 
 @app.route('/survey/splash/<result>')
 def splash(result = None):
-    if not result == None:
-        checkedList = result.split(',')
-        print("checkedList = ", checkedList)
-        cur = g.db.cursor().execute('SELECT MAX(ID) FROM COMPLETE_SURVEY')
-        g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
-        row = cur.fetchall()[0]
-        print("!@#!@# ID = ", row)
-        id = row[0]
+    # if not result == None:
+    #     checkedList = result.split(',')
+    #     print("checkedList = ", checkedList)
+    #     cur = g.db.cursor().execute('SELECT MAX(ID) FROM COMPLETE_SURVEY')
+    #     g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
+    #     row = cur.fetchall()[0]
+    #     print("!@#!@# ID = ", row)
+    #     id = row[0]
 
-        g.db.cursor().execute('insert into COMPLETE_SURVEY')
-        g.db.cursor().execute('update STATISTIC set CNT = (SELECT CNT FROM STATISTIC where Q_ID = {ID})+1 where Q_ID = {ID}'.format(ID=result))
-        g.db.commit()
+    #     g.db.cursor().execute('insert into COMPLETE_SURVEY')
+    #     g.db.cursor().execute('update STATISTIC set CNT = (SELECT CNT FROM STATISTIC where Q_ID = {ID})+1 where Q_ID = {ID}'.format(ID=result))
+    #     g.db.commit()
     return render_template('splash_surv.html', result=result)
 
 @app.route('/survey/result/<result>')
