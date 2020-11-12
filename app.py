@@ -119,7 +119,7 @@ def splash(result = None):
     return render_template('splash_surv.html', result=result)
 
 #통계
-@app.route('/survey/statistic')
+# @app.route('/survey/statistic')
 def statistic():
     #설문 횟수
     cur = g.db.cursor().execute('SELECT MAX(ID) FROM COMPLETE_SURVEY')
@@ -157,6 +157,33 @@ def create_figure():
     axis.plot(xs, ys)
     return fig
 
+@app.route('/statistics')
+def stat():
+    #설문 횟수
+    cur = g.db.cursor().execute('SELECT MAX(ID) FROM COMPLETE_SURVEY')
+    visitCnt = cur.fetchall()[0][0]
+
+    #문제 문항 select
+    cur = g.db.cursor().execute('select B.QUESTION, A.Q_ID, A.C_NUMBER, A.TEXT from CHOICES A, QUESTION B\
+        where A.Q_ID = B.Q_ID')
+    cho =  cur.fetchall()
+
+    
+    ans_list = {}
+    for c in cho:
+        cur = g.db.cursor().execute('select count(*) from COMPLETE_SURVEY where Q_ID={QID} and C_ID={CID} group by Q_ID, C_ID'.format(QID= c[1],CID= c[2]))
+        row = cur.fetchall()
+        if(len(row) == 0):
+            cnt = 0
+        else :
+            cnt = row[0][0]
+
+        if c[1] in ans_list:
+            ans_list[c[1]].append((c[0], c[3], cnt))
+        else:
+            ans_list.update({c[1]:[(c[0], c[3], cnt)]})
+
+    return render_template('chartStatistic.html', ans_list=ans_list, range=range(len(ans_list)))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port='80')

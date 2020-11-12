@@ -113,3 +113,4 @@ insert into STATISTIC(Q_ID, CNT) values(5, 0);
 insert into STATISTIC(Q_ID, CNT) values(6, 0);
 insert into STATISTIC(Q_ID, CNT) values(7, 0);
 insert into STATISTIC(Q_ID, CNT) values(8, 0);
+
