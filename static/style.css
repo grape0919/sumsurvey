@@ -38,3 +38,5 @@ label           { display: table; width:100%; height:5%; text-align: center; fon
 .head-hb        {font-weight: bold; font-size: 40px; color: white; }
 
 .surv           {height: 600px; overflow:auto;}
+
+.statistic      {width: auto; height: auto;}
