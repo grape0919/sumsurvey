@@ -84,7 +84,6 @@ def analz():
     entries = [dict(id=row[0], title=row[1], question=row[2]) for row in cur.fetchall()]
 
     cur = g.db.cursor().execute('SELECT MAX(Q_ID) FROM QUESTION')
-    g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
     row = cur.fetchall()[0]
     maxid = row[0]
 
@@ -92,62 +91,56 @@ def analz():
     choices = []
     for i in range(maxid):
         cur = g.db.cursor().execute('SELECT C_NUMBER, TEXT, POINT FROM CHOICES WHERE Q_ID = {ID}'.format(ID=i+1))
-        g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
         choices.append([dict(qid=i+1, number=row[0], text=row[1], point=row[2]) for row in cur.fetchall()])
 
     return render_template('analz_surv.html', entries=entries, id=1, choices=choices, maxid=maxid)
 
 @app.route('/survey/splash/<result>')
 def splash(result = None):
-    # if not result == None:
-    #     checkedList = result.split(',')
-    #     print("checkedList = ", checkedList)
-    #     cur = g.db.cursor().execute('SELECT MAX(ID) FROM COMPLETE_SURVEY')
-    #     g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
-    #     row = cur.fetchall()[0]
-    #     print("!@#!@# ID = ", row)
-    #     id = row[0]
+    if not result == None:
+        checkedList = result.split(',')
+        print("checkedList = ", checkedList)
+        cur = g.db.cursor().execute('SELECT MAX(ID) FROM COMPLETE_SURVEY')
+        row = cur.fetchall()[0]
+        print("!@#!@# ID = ", row)
+        
+        id = row[0]
+        if( id == None ):
+            id = 1
+        else:
+            id += 1
 
-    #     g.db.cursor().execute('insert into COMPLETE_SURVEY')
-    #     g.db.cursor().execute('update STATISTIC set CNT = (SELECT CNT FROM STATISTIC where Q_ID = {ID})+1 where Q_ID = {ID}'.format(ID=result))
-    #     g.db.commit()
+#http://localhost/survey/splash/,1,2,4,2,2,3,2,2
+        for i in range(1,len(checkedList)):
+            g.db.cursor().execute('insert into COMPLETE_SURVEY(ID, Q_ID, C_ID) values({ID},{Q_ID},{C_ID})'.format(ID=id, Q_ID=i, C_ID=checkedList[i]))
+            # g.db.cursor().execute('update STATISTIC set CNT = (SELECT CNT FROM STATISTIC where Q_ID = {ID})+1 where Q_ID = {ID}'.format(ID=result))
+            g.db.commit()
+            
     return render_template('splash_surv.html', result=result)
-
-@app.route('/survey/result/<result>')
-def result(result = None):
-    cur = g.db.cursor().execute('SELECT NAME FROM RESULT WHERE R_ID={ID}'.format(ID=result))
-    g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
-    row = cur.fetchall()[0]
-    name = row[0]
-
-    g.db.cursor().execute('update STATISTIC set CNT = (SELECT CNT FROM STATISTIC where Q_ID = {ID})+1 where Q_ID = {ID}'.format(ID=result))
-    g.db.commit()
-
-    return render_template('result_surv.html', name=name)
 
 #통계
 @app.route('/survey/statistic')
 def statistic():
-    cur = g.db.cursor().execute('SELECT Q_ID, CNT FROM STATISTIC where Q_ID != 0')
-    g.db.commit()
-    cnt_list = []
-    for row in cur.fetchall():
-        cnt_list.append((row[0], row[1]))
-
-    for index in range(1, len(cnt_list)+1):
-        cur = g.db.cursor().execute('SELECT NAME FROM RESULT WHERE R_ID={ID}'.format(ID=cnt_list[index-1][0]))
-        g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
-        name = cur.fetchall()[0][0]
-        cnt_list[index-1] = (name ,cnt_list[index-1][1])
-    
-    summary = sum([row[1] for row in cnt_list])
-
-    #방문 횟수
-    cur = g.db.cursor().execute('SELECT CNT FROM STATISTIC WHERE Q_ID=0')
-    g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
+    #설문 횟수
+    cur = g.db.cursor().execute('SELECT MAX(ID) FROM COMPLETE_SURVEY')
     visitCnt = cur.fetchall()[0][0]
 
-    return render_template('statistic.html', cntlist=cnt_list, sum = summary, visit=visitCnt)
+    cur = g.db.cursor().execute('SELECT B.TITLE, A.C_ID FROM COMPLETE_SURVEY A, QUESTION B where A.Q_ID = B.Q_ID')
+    ans_list = []
+    for row in cur.fetchall():
+        ans_list.append((row[0], row[1]))
+
+    cnt_list = {}
+
+    for ans in ans_list:
+        cnt_list.setdefault(ans,0)
+        cnt_list[ans] += 1
+
+
+    # summary = sum([row[1] for row in cnt_list])
+
+
+    return render_template('statistic.html', cntlist=cnt_list, sum = visitCnt, visit=visitCnt)
 
 #그래프
 @app.route('/survey/graph')
