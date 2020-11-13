@@ -37,6 +37,6 @@ label           { display: table; width:100%; height:5%; text-align: center; fon
 .head-h         {font-size: 16px; }
 .head-hb        {font-weight: bold; font-size: 40px; color: white; }
 
-.surv           {height: 600px; overflow:auto;}
+.surv           {height: 800px; overflow:auto;}
 
 .statistic      {width: auto; height: auto;}
