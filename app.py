@@ -183,7 +183,7 @@ def stat():
         else:
             ans_list.update({c[1]:[(c[0], c[3], cnt)]})
 
-    return render_template('chartStatistic.html', ans_list=ans_list, range=range(len(ans_list)))
+    return render_template('chartStatistic.html', visitCnt=visitCnt, ans_list=ans_list, range=range(len(ans_list)))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port='80')

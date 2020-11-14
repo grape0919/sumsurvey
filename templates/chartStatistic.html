@@ -12,9 +12,10 @@
     {% endblock %}
 
     {% block body %}
-
         {{ super() }}
             <p style="font-size:50px; color:white; background: #073861; text-align: center; margin-top: 40px">설문 통계</p>
+            <p style="text-align: center; margin-top: 20px"> 총 완료 설문 : {{visitCnt}}</p>
+
             <div class="container">
             {% if range %}
                 {% for i in range %}
