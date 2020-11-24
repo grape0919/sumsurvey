@@ -1,42 +1,165 @@
-<!doctype html>
+{% extends "bootstrap/base.html" %}
 
-<script type="text/javascript">
+{% block styles%}
+  {{super()}}
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+{% endblock %}
 
-$(document).ready(function(){
-	
-	$("#staticSB").change(function() {
-	      alert(" 정적 변경 감지");
-	   })
-       
-})
+{% block body %}
+  {% block scripts %}
+  <script type="text/javascript">
+    var maxid = {{maxid}};
+    var id = {{id}};
+    var qList = [];
+    var chooseList = [];
 
-function appendTest(){
-	var reader = new FileReader();
-	var html = '<div class=flex-container>'
-  +'   <div class=entries>'
-  +'    <img class=fit-picture src="{{ url_for('static', filename=imagefile) }}">'
-  +'    <h2>{{ entry.id }}. {{ entry.title }}</h2>'
-  +'    {{ entry.question|safe }}'
-  +'  </div>'
-  +'  <div class=entries>'
-  +'    {% for ch in choices %}'
-  +'      <li>{{ch.number}}. {{ch.text}}</li>'
-  +'    {% endfor %}'
-  +'  </div>'
-  +'</div>';
-	
-	$("#parent").empty();
-	$("#parent").append(html);
-}
+    var checkedList = [];
+
+    var checkedValue = [];
+
+    {% for e in entries %}
+      qList[{{e.id}}] = '<h2 class="center-block">Q. {{ e.question }} </h2>'
+    {% endfor %}
+
+    {% for choice in choices %}
+      var temp = '';
+      {% for ch in choice %}
+        temp += '<div class="entries center-block">'
+          +'  <input type="radio" name="choice" id="{{ch.number}}" value={{ch.point}} />'
+          +'  <button class=choice for="{{ch.number}}" type="button"><label  for="{{ch.number}}">{{ch.text}}</label></button>'
+          +'</div>';
+      {% endfor %}
+      chooseList[ '{{ choice[0].qid }}' ] = temp;
+    {% endfor %}
 
 
-</script>
+    function goNext(){
+      
+      if(!value_check()){
+        return;
+      }
+      
+      if(id == maxid){
+        var temp = [];
+        
+        for(var j = 0; j < checkedValue.length; j++){
+          
+          if(checkedValue[j] >= 0){
+            var v = checkedValue[j];
+            for(var i = 0;i < 4; i++){
+              if (!(temp[i] >= 0)){
+                temp[i] = 0;
+              }
+              
+              temp[i] += v & 1;
+              
+              v = v >> 1;
+            }
+          }
+        }
+        var max = 0;
+        var result = -1;
+        for(var i = 0; i < temp.length; i++){
+          if(temp[i] > max){
+            max = temp[i];
+            result = i+1;
+          }
+        }
+        location.href = "/survey/splash/"+result;
+        return;
+      }else{
+        ++id;
+      }
+      var reader = new FileReader();
+      var html = ''
+      +'<img class="fit-picture center-block" src="/static/resources/img/질문'+id+'.jpg">'
+      + qList[id]
+      + chooseList[id]
+      +'<div class="center-block">'
+      +'  <button class=gopreviousbutton type="submit" onclick="goPrevious();" >이전</button>'
+      +'  <button class=gonextbutton type="submit" onclick="goNext();" >다음</button>'
+      +'</div>';
+      
+      $("#surv").empty();
+      $("#surv").append(html);
+      radio_check();
+    }
 
-</head>
-<body>
-<button type="button" onclick="appendTest()">append?</button>
-<div id="parent">
+    function goPrevious(){
+      if(id == 1){
+        return;
+      }else{
+        --id;
+      }
+      var reader = new FileReader();
+      var html = ''
+      +'<img class="fit-picture center-block" src="/static/resources/img/질문'+id+'.jpg">'
+      + qList[id]
+      + chooseList[id]
+      +'<div class="center-block">'
+      +'  <button class=gopreviousbutton type="submit" onclick="goPrevious();" >이전</button>'
+      +'  <button class=gonextbutton type="submit" onclick="goNext();" >다음</button>'
+      +'</div>';
+      
+      $("#surv").empty();
+      $("#surv").append(html);
+      radio_check();
+    }
 
-</div>
-</body>
-</html>
+    function value_check() {
+      var check_count = document.getElementsByName("choice").length;
+      var isChecked = false;
+      for (var i=0; i<check_count; i++) {
+        if (document.getElementsByName("choice")[i].checked == true) {
+          checkedList[id] = i;
+          checkedValue[id] = document.getElementsByName("choice")[i].value;
+          isChecked = true;
+        }
+      }
+
+      if(!isChecked){
+        alert("질문에 응답하지 않으셨습니다.");
+        return false;
+      }else{
+        return true;
+      }
+    }
+
+    function radio_check(){
+      if( checkedList[id] >= 0){
+        document.getElementsByName("choice")[checkedList[id]].checked = true;
+      }
+    }
+
+  </script>
+  
+  {{super()}}
+  {%endblock%}
+  
+  {{super()}}
+  <div class="container">
+    <div class="head-background center-block">
+      <span class=head-hb>나</span>
+      <span class=head-h>에게 맞는 </span>
+      <span class=head-hb>캠핑</span>
+      <span class=head-h>유형 알아보기</span>
+    </div>
+    <div id='surv'>
+      <img class="fit-picture center-block" src="{{ url_for('static', filename="resources/img/질문1.jpg") }}">
+      <h2 class="center-block">Q. {{ entries[0].question|safe }}</h2>
+      {% for ch in choices[0] %}  
+        <div class="entries center-block">
+          <input type="radio" name="choice" id="{{ch.number}}" value={{ch.point}} />
+          <button class=choice for="{{ch.number}}" type="button"><label  for="{{ch.number}}">{{ch.text}}</label></button>
+        </div>
+      {% endfor %}
+      <div class="center-block">
+        <button class=gopreviousbutton type="submit" onclick="goPrevious();" >이전</button>
+        <button class=gonextbutton type="submit" onclick="goNext();" >다음</button>
+      </div>
+      
+      
+    </div>
+    <button class="ad center-block" type="button" disabled></button>
+  </div>
+{% endblock %}
