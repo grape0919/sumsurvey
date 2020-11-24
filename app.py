@@ -118,28 +118,6 @@ def splash(result = None):
             
     return render_template('splash_surv.html', result=result)
 
-#통계
-# @app.route('/survey/statistic')
-def statistic():
-    #설문 횟수
-    cur = g.db.cursor().execute('SELECT MAX(ID) FROM COMPLETE_SURVEY')
-    visitCnt = cur.fetchall()[0][0]
-
-    cur = g.db.cursor().execute('SELECT B.Q_ID, B.TITLE, C.TEXT FROM COMPLETE_SURVEY A, QUESTION B, CHOICES C where A.Q_ID = B.Q_ID and A.C_ID = C.C_NUMBER and B.Q_ID = C.Q_ID')
-    ans_list = []
-    for row in cur.fetchall():
-        ans_list.append((str(row[0]) +". "+ row[1], row[2]))
-
-    cnt_list = {}
-
-    for ans in ans_list:
-        cnt_list.setdefault(ans,0)
-        cnt_list[ans] += 1
-
-    cnt_list = sorted(cnt_list.items())
-
-    return render_template('statistic.html', cntlist=cnt_list, sum = visitCnt, visit=visitCnt)
-
 #그래프
 @app.route('/survey/graph')
 def chart():
