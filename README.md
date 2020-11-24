@@ -16,5 +16,5 @@ Flask 기반 설문조사 페이지
 ## nogambling branch
 ### [설문조사 페이지](http://nogambling.co.kr/)
 1. 기업 요청에 의해 제작된 페이지이며 불법도박 실태조사에 대한 설문조사이다.
-2. 설문 조사 결과는 간단한 통계로 확인 할 수 있다. [통계 페이지](http://nogambling.co.kr/statistics)
+2. 설문 조사 결과는 간단한 통계를 막대그래프로 확인 할 수 있다. [통계 페이지](http://nogambling.co.kr/statistics)
 
