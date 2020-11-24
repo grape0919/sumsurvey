@@ -1,1 +1,1 @@
-select sum(cnt) from STATISTIC;
+select B.QUESTION, A.Q_ID, A.C_NUMBER, A.TEXT from CHOICES A, QUESTION B        where A.Q_ID = B.Q_ID

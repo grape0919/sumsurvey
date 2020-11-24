@@ -5,6 +5,13 @@
   <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
 {% endblock %}
 
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nogambling</title>
+</head>
+
 {% block body %}
   {% block scripts %}
   <script type="text/javascript">
@@ -18,7 +25,7 @@
     var checkedValue = [];
 
     {% for e in entries %}
-      qList[{{e.id}}] = '<h2 class="center-block">Q. {{ e.question }} </h2>'
+      qList[{{e.id}}] = '<h2 class="center-block qa">{{e.id}}. {{ e.question }} </h2>'
     {% endfor %}
 
     {% for choice in choices %}
@@ -40,39 +47,16 @@
       }
       
       if(id == maxid){
-        var temp = [];
-        
-        for(var j = 0; j < checkedValue.length; j++){
-          
-          if(checkedValue[j] >= 0){
-            var v = checkedValue[j];
-            for(var i = 0;i < 4; i++){
-              if (!(temp[i] >= 0)){
-                temp[i] = 0;
-              }
-              
-              temp[i] += v & 1;
-              
-              v = v >> 1;
-            }
-          }
-        }
-        var max = 0;
-        var result = -1;
-        for(var i = 0; i < temp.length; i++){
-          if(temp[i] > max){
-            max = temp[i];
-            result = i+1;
-          }
-        }
-        location.href = "/survey/splash/"+result;
+        var temp = checkedValue.toString();
+        console.log("temp = "+temp)
+        location.href = "/survey/splash/"+temp;
         return;
       }else{
         ++id;
       }
       var reader = new FileReader();
       var html = ''
-      +'<img class="fit-picture center-block" src="/static/resources/img/질문'+id+'.jpg">'
+      // +'<img class="fit-picture center-block" src="/static/resources/img/질문'+id+'.jpg">'
       + qList[id]
       + chooseList[id]
       +'<div class="center-block">'
@@ -87,13 +71,14 @@
 
     function goPrevious(){
       if(id == 1){
+        location.href="/";
         return;
       }else{
         --id;
       }
       var reader = new FileReader();
       var html = ''
-      +'<img class="fit-picture center-block" src="/static/resources/img/질문'+id+'.jpg">'
+      // +'<img class="fit-picture center-block" src="/static/resources/img/질문'+id+'.jpg">'
       + qList[id]
       + chooseList[id]
       +'<div class="center-block">'
@@ -139,18 +124,15 @@
   {{super()}}
   <div class="container">
     <div class="head-background center-block">
-      <span class=head-hb>나</span>
-      <span class=head-h>에게 맞는 </span>
-      <span class=head-hb>캠핑</span>
-      <span class=head-h>유형 알아보기</span>
+      <span class=head-hb>불법도박 관련 이용 경험 설문조사</span>
     </div>
-    <div id='surv'>
-      <img class="fit-picture center-block" src="{{ url_for('static', filename="resources/img/질문1.jpg") }}">
-      <h2 class="center-block">Q. {{ entries[0].question|safe }}</h2>
-      {% for ch in choices[0] %}  
-        <div class="entries center-block">
+    <div id='surv' class='surv'>
+      <!-- <img class="fit-picture center-block" src="{{ url_for('static', filename="resources/img/질문1.jpg") }}"> -->
+      <p class="center-block qa" >{{entries[0].id}}. {{ entries[0].question|safe }}</p>
+      {% for ch in choices[0] %} 
+        <div class="entries">
           <input type="radio" name="choice" id="{{ch.number}}" value={{ch.point}} />
-          <button class=choice for="{{ch.number}}" type="button"><label  for="{{ch.number}}">{{ch.text}}</label></button>
+          <button class=choice for="{{ch.number}}" type="button"><label for="{{ch.number}}">{{ch.text}}</label></button>
         </div>
       {% endfor %}
       <div class="center-block">

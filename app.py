@@ -5,8 +5,13 @@ from __future__ import with_statement
 from contextlib import closing
 
 import sqlite3
-from flask import Flask, g, render_template
+from flask import Flask, g, render_template, Response
 from flask_bootstrap import Bootstrap
+
+import io
+import random 
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.figure import Figure
 
 # configuration
 DATABASE = 'rdbms/sumsurvey.db'
@@ -45,7 +50,7 @@ def teardown_request(exception):
 @app.route('/')
 def start():
 
-    g.db.cursor().execute('update STATISTIC set CNT = (SELECT CNT FROM STATISTIC where R_ID = {ID})+1 where R_ID = {ID}'.format(ID=0))
+    g.db.cursor().execute('update STATISTIC set CNT = (SELECT CNT FROM STATISTIC where Q_ID = {ID})+1 where Q_ID = {ID}'.format(ID=0))
     g.db.commit()
 
     return render_template('start_surv.html')
@@ -79,7 +84,6 @@ def analz():
     entries = [dict(id=row[0], title=row[1], question=row[2]) for row in cur.fetchall()]
 
     cur = g.db.cursor().execute('SELECT MAX(Q_ID) FROM QUESTION')
-    g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
     row = cur.fetchall()[0]
     maxid = row[0]
 
@@ -87,50 +91,77 @@ def analz():
     choices = []
     for i in range(maxid):
         cur = g.db.cursor().execute('SELECT C_NUMBER, TEXT, POINT FROM CHOICES WHERE Q_ID = {ID}'.format(ID=i+1))
-        g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
         choices.append([dict(qid=i+1, number=row[0], text=row[1], point=row[2]) for row in cur.fetchall()])
 
     return render_template('analz_surv.html', entries=entries, id=1, choices=choices, maxid=maxid)
 
 @app.route('/survey/splash/<result>')
 def splash(result = None):
+    if not result == None:
+        checkedList = result.split(',')
+        print("checkedList = ", checkedList)
+        cur = g.db.cursor().execute('SELECT MAX(ID) FROM COMPLETE_SURVEY')
+        row = cur.fetchall()[0]
+        print("!@#!@# ID = ", row)
+        
+        id = row[0]
+        if( id == None ):
+            id = 1
+        else:
+            id += 1
+
+#http://localhost/survey/splash/,1,2,4,2,2,3,2,2
+        for i in range(1,len(checkedList)):
+            g.db.cursor().execute('insert into COMPLETE_SURVEY(ID, Q_ID, C_ID) values({ID},{Q_ID},{C_ID})'.format(ID=id, Q_ID=i, C_ID=checkedList[i]))
+            # g.db.cursor().execute('update STATISTIC set CNT = (SELECT CNT FROM STATISTIC where Q_ID = {ID})+1 where Q_ID = {ID}'.format(ID=result))
+            g.db.commit()
+            
     return render_template('splash_surv.html', result=result)
 
-@app.route('/survey/result/<result>')
-def result(result = None):
-    cur = g.db.cursor().execute('SELECT NAME FROM RESULT WHERE R_ID={ID}'.format(ID=result))
-    g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
-    row = cur.fetchall()[0]
-    name = row[0]
+#그래프
+@app.route('/survey/graph')
+def chart():
 
-    g.db.cursor().execute('update STATISTIC set CNT = (SELECT CNT FROM STATISTIC where R_ID = {ID})+1 where R_ID = {ID}'.format(ID=result))
-    g.db.commit()
+    fig = create_figure()
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    return Response(output.getvalue(), mimetype='image/png')
 
-    return render_template('result_surv.html', name=name)
+def create_figure():
+    fig = Figure()
+    axis = fig.add_subplot(1, 1, 1)
+    xs = range(100)
+    ys = [random.randint(1, 50) for x in xs]
+    axis.plot(xs, ys)
+    return fig
 
-#통계
-@app.route('/survey/statistic')
-def statistic():
-    cur = g.db.cursor().execute('SELECT R_ID, CNT FROM STATISTIC where R_ID != 0')
-    g.db.commit()
-    cnt_list = []
-    for row in cur.fetchall():
-        cnt_list.append((row[0], row[1]))
-
-    for index in range(1, len(cnt_list)+1):
-        cur = g.db.cursor().execute('SELECT NAME FROM RESULT WHERE R_ID={ID}'.format(ID=cnt_list[index-1][0]))
-        g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
-        name = cur.fetchall()[0][0]
-        cnt_list[index-1] = (name ,cnt_list[index-1][1])
-    
-    summary = sum([row[1] for row in cnt_list])
-
-    #방문 횟수
-    cur = g.db.cursor().execute('SELECT CNT FROM STATISTIC WHERE R_ID=0')
-    g.db.commit()# cur = g.db.cursor().execute('SELECT * FROM QUESTION;')
+@app.route('/statistics')
+def stat():
+    #설문 횟수
+    cur = g.db.cursor().execute('SELECT MAX(ID) FROM COMPLETE_SURVEY')
     visitCnt = cur.fetchall()[0][0]
 
-    return render_template('statistic.html', cntlist=cnt_list, sum = summary, visit=visitCnt)
+    #문제 문항 select
+    cur = g.db.cursor().execute('select B.QUESTION, A.Q_ID, A.C_NUMBER, A.TEXT from CHOICES A, QUESTION B\
+        where A.Q_ID = B.Q_ID')
+    cho =  cur.fetchall()
+
+    
+    ans_list = {}
+    for c in cho:
+        cur = g.db.cursor().execute('select count(*) from COMPLETE_SURVEY where Q_ID={QID} and C_ID={CID} group by Q_ID, C_ID'.format(QID= c[1],CID= c[2]))
+        row = cur.fetchall()
+        if(len(row) == 0):
+            cnt = 0
+        else :
+            cnt = row[0][0]
+
+        if c[1] in ans_list:
+            ans_list[c[1]].append((c[0], c[3], cnt))
+        else:
+            ans_list.update({c[1]:[(c[0], c[3], cnt)]})
+
+    return render_template('chartStatistic.html', visitCnt=visitCnt, ans_list=ans_list, range=range(len(ans_list)))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port='80')
