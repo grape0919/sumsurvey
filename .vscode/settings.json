@@ -8,5 +8,6 @@
             "database": "c:/Users/DELL/PLAYGROUND/hkdevstudio/sumsurvey/rdbms/sumsurvey.db"
         }
     ],
-    "sqltools.useNodeRuntime": true
+    "sqltools.useNodeRuntime": true,
+    "python.pythonPath": "C:\\Users\\DELL\\DEV\\Anaconda3\\envs\\flask_env\\python.exe"
 }
