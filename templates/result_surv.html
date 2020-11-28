@@ -15,7 +15,10 @@
         <button class="button center-block" type="submit" >검사 다시하기</button>
       </form>
       
-      <button class="ad center-block" type="button" disabled></button>
+      {% include "share.html" %}
+      <div>
+        {% include "ad.html" %}
+      </div>
     </div>
     {% endif %}
 {% endblock %}
