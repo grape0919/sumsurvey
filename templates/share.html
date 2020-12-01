@@ -1,9 +1,11 @@
-<!-- <div class="center-block">
-    <h2>SNS 공유하기</h2>
-    <div class="center-block">
-        <button class="share" type="button" href="/"></button>
-        <button class="share" type="button" href="/"></button>
-        <button class="share" type="button" href="/"></button>
-        <button class="share" type="button" href="/"></button>
-    </div>
-</div> -->
+{% block script %}
+<!-- Go to www.addthis.com/dashboard to customize your tools --> 
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5fc64831480c97b5">
+</script>
+{% endblock %}
+{% block body %}
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<p class="center-block" style="margin: 30px;">
+    <div class="addthis_inline_share_toolbox_4x43"></div>
+</p>
+{% endblock %}

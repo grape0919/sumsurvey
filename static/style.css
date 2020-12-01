@@ -4,7 +4,7 @@ h1, h2          { margin: 20; }
 h1              { border-bottom: 2px solid #eee; }
 h2              { width: 100%; text-align: center; font-size: large; }
 label           { width:100%; float:left;}
-.flex-container{ width: 100%; display: flex; flex-direction: column; -webkit-box-align: center;
+.flex-container { width: 100%; display: flex; flex-direction: column; -webkit-box-align: center;
                  align-items: center; -webkit-box-pack: center; justify-content: center; }
 
 .page           { margin: 2em auto; width: 35em; border: 5px solid #ccc;
@@ -27,7 +27,7 @@ label           { width:100%; float:left;}
 .gonextbutton       { border-radius: 5px; background: rgb(65, 147, 255); color: white; width: 40%; height: 30px; margin-top: 2%; margin-left: 10%;}
 .gopreviousbutton       { border-radius: 5px; background: #ccc; color: white; width: 40%; height: 30px; margin-top: 2%;margin-left:5%}
 
-.ad             { width: 50%; height: 50px; margin-top: 50px; background-color: wite; border: 0; outline: 0;}
+.ad             { width: 50%; height: 50px; margin-top: 50px; background-color: white; border: 0; outline: 0;}
 
 .head-background{ width: 100%; background: #ccc; text-align: center; padding-top:20px;padding-bottom:20px;
                  margin-top: 20px; margin-bottom: 20px;}
@@ -35,3 +35,5 @@ label           { width:100%; float:left;}
 .head-hb        {font-weight: bold; font-size: large;}
 
 .radio {background-color: white;}
+
+.share {margin-left: 15%;}
