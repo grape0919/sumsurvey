@@ -10,8 +10,8 @@ label           { width:100%; float:left;}
 .page           { margin: 2em auto; width: 35em; border: 5px solid #ccc;
                   padding: 0.8em; background: white; top:50%; left:50%;}
 .entries        { width: 90%; margin-top: 1%; }
-.choice         { width: 90%; margin-top: 1%; background: #ccc; text-align: left;
-                  margin-left: 1%px; padding-top: 5px; padding-bottom: 5px;}
+.choice         { width: 90%;  margin-top: 1%; text-align: left; border-radius: 7px; background-color: gainsboro;
+                  margin-left: 1%; padding-top: 5px; padding-bottom: 5px; border: 0px solid}
 .add-entry      { font-size: 0.9em; border-bottom: 1px solid #ccc; }
 .add-entry dl   { font-weight: bold; }
 .metanav        { text-align: right; font-size: 0.8em; padding: 0.3em;
