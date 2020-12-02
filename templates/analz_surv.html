@@ -87,13 +87,14 @@
 
     function goPrevious(){
       if(id == 1){
+        location.href = "/";
         return;
       }else{
         --id;
       }
-      var reader = new FileReader();
       var html = ''
-      +'<img class="fit-picture center-block" src="/static/resources/img/질문'+id+'.jpg">'
+      var reader = new FileReader();
+      html +='<img class="fit-picture center-block" src="/static/resources/img/질문'+id+'.jpg">'
       + qList[id]
       + chooseList[id]
       +'<div class="center-block">'
