@@ -1,5 +1,7 @@
-# sumsurvey
-A flask framework based survey that scores and adds up to each question.
+# SUMSURVEY
+----
+This is a Survey Web Framework based on a flask framework.
+It can score and add up to points each questions.
 
 Flask 기반 설문조사 페이지
 
